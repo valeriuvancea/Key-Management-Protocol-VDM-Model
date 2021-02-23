@@ -1,0 +1,59 @@
+class Controller is subclass of GLOBAL
+types
+	public ControllerMode = <Controller> | <SparePart>;
+	
+	private ControllerState = <Idle> |
+		<BroadcastSearchKv> | 
+		<JoinRequest> |
+		<SendChallengeReply> |
+		<SendChallenge> |
+		<SendEffectivePublicKey> |
+		<Connected> |
+		<SendNewKeyForRekeyRequest> |
+		<Undefined>;
+	
+values
+	private sparePartStatesSequence: seq of ControllerState = [
+		<Idle>,
+		<BroadcastSearchKv>,
+		<JoinRequest>,
+		<SendChallengeReply>,
+		<SendChallenge>,
+		<SendEffectivePublicKey>,
+		<Connected>
+	];
+
+	private controllerStatesSequence: seq of ControllerState = [
+		<Connected>,
+		<SendNewKeyForRekeyRequest>
+	];
+
+
+instance variables
+	private state: ControllerState :=  <Idle>;
+	public id: token;
+	public ipAddress: token;
+	private mode: ControllerMode := <SparePart>;
+	
+	inv state <> undefinedState;
+	
+operations
+	public Controller: token * token ==> Controller
+	Controller(newId, newIpAddress) == (
+		id := newId;
+		ipAddress := newIpAddress;
+	);
+	
+	public NextState: (/* should use a message object to decide what is the next state */) ==> ()
+	NextState() == skip
+	post (
+		if mode = <SparePart> then 
+			state = GetNextStateFromSequenceUsingCurrentState[ControllerState](sparePartStatesSequence, state~) -- state~ is the previous state
+		else 
+			state = GetNextStateFromSequenceUsingCurrentState[ControllerState](controllerStatesSequence, state~)
+	) and state <> state~;
+
+	public pure GetMode: () ==> ControllerMode
+	GetMode() == return mode;
+
+end Controller

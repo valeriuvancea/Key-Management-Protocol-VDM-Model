@@ -1,0 +1,47 @@
+class KeyVault is subclass of GLOBAL
+types
+	private KeyVaultState = <Idle> |
+        <RespondToBroadcastSearch> |
+        <SendChallenge> |
+        <SendChallengeReplyVerified> |
+        <SendChallengeReply> |
+        <SendNewSignedEffectiveCertificate> |
+        <SendRekeyRequest> |
+        <Undefined>;
+
+    private ControllerWithKeyVaultState :: 
+        controller : Controller
+        keyVaultState: KeyVaultState;
+
+values
+	private sparePartStatesSequence: seq of KeyVaultState = [
+		<Idle>,
+		<RespondToBroadcastSearch>,
+		<SendChallenge>,
+		<SendChallengeReplyVerified>,
+		<SendChallengeReply>,
+		<SendNewSignedEffectiveCertificate>
+	];
+	
+	private controllerStatesSequence: seq of KeyVaultState = [
+		<SendNewSignedEffectiveCertificate>,
+		<SendRekeyRequest>
+	];
+
+instance variables
+    private controllers: map token to ControllerWithKeyVaultState := { |-> };
+
+    inv forall controllerId in set dom controllers & controllers(controllerId).keyVaultState <> undefinedState;
+
+operations
+	public NextStateForControllerWithId: (token/* should use a message object to decide what is the next state */) ==> ()
+	NextStateForControllerWithId(controllerId) == skip
+    pre controllerId in set dom controllers
+	post (
+		if controllers(controllerId).controller.GetMode() = <SparePart> then 
+			controllers(controllerId).keyVaultState = GetNextStateFromSequenceUsingCurrentState[KeyVaultState](sparePartStatesSequence, (controllers~)(controllerId).keyVaultState) -- controllers~ is the previous controllers object
+		else 
+			controllers(controllerId).keyVaultState = GetNextStateFromSequenceUsingCurrentState[KeyVaultState](controllerStatesSequence, (controllers~)(controllerId).keyVaultState) 
+	) and controllers(controllerId).keyVaultState <> (controllers~)(controllerId).keyVaultState;
+
+end KeyVault

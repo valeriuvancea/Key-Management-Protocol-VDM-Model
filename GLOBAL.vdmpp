@@ -1,0 +1,16 @@
+class GLOBAL
+values
+	public undefinedState = <Undefined>;
+
+functions
+	protected GetNextStateFromSequenceUsingCurrentState[@T]: seq of @T * @T -> @T
+	GetNextStateFromSequenceUsingCurrentState(sequence, currentState) ==
+		let i in set inds sequence be st sequence(i) = currentState in
+			if (i = len sequence) then
+				sequence(1)
+			else 
+				sequence(i+1)
+	pre card elems sequence = card inds sequence -- the elements of the sequence should be unique
+	post RESULT in set elems sequence;
+
+end GLOBAL
