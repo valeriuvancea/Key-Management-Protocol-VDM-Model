@@ -1,0 +1,50 @@
+class Message
+values
+    private messageTypes: map int to seq of char = {
+        -1 |-> "Undefined",
+        0 |-> "SendBroadcastToSearchKeyVault",
+        1 |-> "ReceiveKeyVaultSearchBroadcastAcknoledgement",
+        2 |-> "JoinRequest",
+        3 |-> "SendChallenge",
+        4 |-> "SendChallengeReply",
+        5 |-> "SendChallengeReplyVerification",
+        6 |-> "SendNewEffectivePublicKey",
+        7 |-> "SendNewEffectiveCertificate",
+        8 |-> "SendNewEffectiveCertificateAcknoledgement",
+        9 |-> "SenRekeyRequest",
+        10 |-> "SendNewEffectivePublicKeyWithSignature"
+    };
+
+instance variables
+    private messageType: int;
+    private controllerId: token;
+    private isForKeyVault: bool;
+    private isBetweenControllers: bool;
+
+    inv if (isForKeyVault) then isBetweenControllers <> true
+        else if (isBetweenControllers) then isForKeyVault <> true
+             else true
+
+operations
+    public Message: int * token * bool * bool ==> Message
+    Message(type, controllerID, forKeyVault, betweenControllers) == (
+        messageType := type;
+        controllerId := controllerID;
+        isForKeyVault := forKeyVault;
+        isBetweenControllers := betweenControllers;
+    );
+
+    public pure getMessageType: () ==> seq of char
+    getMessageType() == return messageTypes(messageType)
+    pre messageType in set dom messageTypes;
+
+    public pure getControllerId: () ==> token
+    getControllerId() == return controllerId;
+
+    public pure IsForKeyVault: () ==> bool
+    IsForKeyVault() == return isForKeyVault;
+
+    public pure IsBetweenControllers: () ==> bool
+    IsBetweenControllers() == return isBetweenControllers;
+
+end Message
