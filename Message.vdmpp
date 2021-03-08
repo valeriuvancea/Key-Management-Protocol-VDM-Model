@@ -1,22 +1,19 @@
-class Message
+class Message  is subclass of MessageInterface
 values
-    private messageTypes: map int to seq of char = {
-        -1 |-> "Undefined",
-        0 |-> "SendBroadcastToSearchKeyVault",
-        1 |-> "ReceiveKeyVaultSearchBroadcastAcknoledgement",
-        2 |-> "JoinRequest",
-        3 |-> "SendChallenge",
-        4 |-> "SendChallengeReply",
-        5 |-> "SendChallengeReplyVerification",
-        6 |-> "SendNewEffectivePublicKey",
-        7 |-> "SendNewEffectiveCertificate",
-        8 |-> "SendNewEffectiveCertificateAcknoledgement",
-        9 |-> "SenRekeyRequest",
-        10 |-> "SendNewEffectivePublicKeyWithSignature"
+    protected messageTypes: set of seq of char = {
+        "BroadcastToSearchKeyVault",
+        "KeyVaultSearchBroadcastAcknowledgement",
+        "JoinRequest",
+        "SendChallenge",
+        "SendChallengeAnswer",
+        "SendKeyVaultCertificate",
+        "SendNewEffectivePublicKey",
+        "SendNewEffectiveCertificate",
+        "SendNewEffectiveCertificateAcknoledgement"
     };
 
 instance variables
-    private messageType: int;
+    private messageType: seq of char;
     private controllerId: token;
     private isForKeyVault: bool;
     private isBetweenControllers: bool;
@@ -26,7 +23,7 @@ instance variables
              else true
 
 operations
-    public Message: int * token * bool * bool ==> Message
+    public Message: seq of char * token * bool * bool ==> Message
     Message(type, controllerID, forKeyVault, betweenControllers) == (
         messageType := type;
         controllerId := controllerID;
@@ -34,12 +31,11 @@ operations
         isBetweenControllers := betweenControllers;
     );
 
-    public pure getMessageType: () ==> seq of char
-    getMessageType() == return messageTypes(messageType)
-    pre messageType in set dom messageTypes;
+    public pure GetMessageType: () ==> seq of char
+    GetMessageType() == return messageType;
 
-    public pure getControllerId: () ==> token
-    getControllerId() == return controllerId;
+    public pure GetControllerId: () ==> token
+    GetControllerId() == return controllerId;
 
     public pure IsForKeyVault: () ==> bool
     IsForKeyVault() == return isForKeyVault;

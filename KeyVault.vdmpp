@@ -1,4 +1,4 @@
-class KeyVault is subclass of GLOBAL
+class KeyVault is subclass of Equipment
 types
 	private KeyVaultState = <Idle> |
         <WaitingForJoinRequest> |
@@ -6,7 +6,6 @@ types
         <WaitingForChallengeRequest> |
         <WaitingForNewEffectivePublicKey> |
         <WaitingForNewEffectiveCertificateAcknowledgement> |
-        <WaitingForNewEffectivePublicKeyDuringRekeying> |
 		<Connected> |
         <Undefined>;
 
@@ -27,7 +26,7 @@ values
 	
 	private controllerStatesSequence: seq of KeyVaultState = [
 		<Connected>,
-		<WaitingForNewEffectivePublicKeyDuringRekeying>,
+		<WaitingForNewEffectivePublicKey>,
 		<WaitingForNewEffectiveCertificateAcknowledgement>
 	];
 
@@ -39,29 +38,36 @@ instance variables
 operations
 	public NextState: Message ==> ()
 	NextState(message) == (
-		cases message.getMessageType():
-			"ReceiveKeyVaultSearchBroadcastAcknoledgement" -> ModifyKeyVaultStateForControllerFromMessage(<WaitingForJoinRequest>, message),
+		cases message.GetMessageType():
+			"KeyVaultSearchBroadcastAcknowledgement" -> ModifyKeyVaultStateForControllerFromMessage(<WaitingForJoinRequest>, message),
 			"SendChallenge" -> ModifyKeyVaultStateForControllerFromMessage(<WaitingForChallengeSolvedReply>, message),
-			"SendChallengeReplyVerification" -> ModifyKeyVaultStateForControllerFromMessage(<WaitingForChallengeRequest>, message),
-			"SendChallenge" -> ModifyKeyVaultStateForControllerFromMessage(<WaitingForNewEffectivePublicKey>, message),
+			"SendKeyVaultCertificate" -> ModifyKeyVaultStateForControllerFromMessage(<WaitingForChallengeRequest>, message),
+			"SendChallengeAnswer" -> ModifyKeyVaultStateForControllerFromMessage(<WaitingForNewEffectivePublicKey>, message),
 			"SendNewEffectiveCertificate" -> ModifyKeyVaultStateForControllerFromMessage(<WaitingForNewEffectiveCertificateAcknowledgement>, message),
 			"SendNewEffectiveCertificateAcknoledgement" -> ModifyKeyVaultStateForControllerFromMessage(<Connected>, message),
-			"SenRekeyRequest" -> ModifyKeyVaultStateForControllerFromMessage(<WaitingForNewEffectivePublicKeyDuringRekeying>, message),
 			others -> ModifyKeyVaultStateForControllerFromMessage(undefinedState, message)
 		end;
 	)
-    pre message.getControllerId() in set dom controllers
+    pre message.GetControllerId() in set dom controllers
 	post (
-		if controllers(message.getControllerId()).controller.GetMode() = <SparePart> then 
-			controllers(message.getControllerId()).keyVaultState = GetNextStateFromSequenceUsingCurrentState[KeyVaultState](sparePartStatesSequence, (controllers~)(message.getControllerId()).keyVaultState) -- controllers~ is the previous controllers object
+		if controllers(message.GetControllerId()).controller.GetMode() = <SparePart> then 
+			controllers(message.GetControllerId()).keyVaultState = GetNextStateFromSequenceUsingCurrentState[KeyVaultState](sparePartStatesSequence, (controllers~)(message.GetControllerId()).keyVaultState) -- controllers~ is the previous controllers object
 		else 
-			controllers(message.getControllerId()).keyVaultState = GetNextStateFromSequenceUsingCurrentState[KeyVaultState](controllerStatesSequence, (controllers~)(message.getControllerId()).keyVaultState) 
-	) and controllers(message.getControllerId()).keyVaultState <> (controllers~)(message.getControllerId()).keyVaultState;
+			controllers(message.GetControllerId()).keyVaultState = GetNextStateFromSequenceUsingCurrentState[KeyVaultState](controllerStatesSequence, (controllers~)(message.GetControllerId()).keyVaultState) 
+	) and controllers(message.GetControllerId()).keyVaultState <> (controllers~)(message.GetControllerId()).keyVaultState;
 
 	private ModifyKeyVaultStateForControllerFromMessage: KeyVaultState * Message ==> ()
-	ModifyKeyVaultStateFomControllerWithId(newState, message) == (
-		controllers := controllers ++ {message.getControllerId() |-> {controller: controllers(message.getControllerId()).controller, keyVaultState: newState}}
+	ModifyKeyVaultStateForControllerFromMessage(newState, message) == (
+		controllers := controllers ++ { message.GetControllerId() |-> mk_ControllerWithKeyVaultState(controllers(message.GetControllerId()).controller, newState)}
 	)
-	pre message.getControllerId() in set dom controllers;
+	pre message.GetControllerId() in set dom controllers;
+
+	public pure GetControllerWithId: token ==> Controller
+	GetControllerWithId(controllerId) == return controllers(controllerId).controller
+	pre controllerId in set dom controllers;
+
+	public AddController: Controller ==> ()
+	AddController(controller) == controllers := controllers ++ { controller.GetId() |-> mk_ControllerWithKeyVaultState(controller, <Idle>) }
+	pre controller.GetId() not in set dom controllers;
 
 end KeyVault

@@ -1,4 +1,4 @@
-class GLOBAL
+class Equipment
 values
 	public undefinedState = <Undefined>;
 
@@ -17,4 +17,4 @@ functions
 	pre card elems sequence = card inds sequence -- the elements of the sequence should be unique
 	post RESULT in set elems sequence;
 
-end GLOBAL
+end Equipment

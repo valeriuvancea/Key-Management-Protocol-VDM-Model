@@ -1,0 +1,9 @@
+class MessageInterface
+values
+    private messageTypes: set of seq of char = {};
+
+instance variables
+    private messageType: seq of char := "";
+    inv messageType in set messageTypes
+
+end MessageInterface

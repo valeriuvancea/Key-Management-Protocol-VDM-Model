@@ -1,0 +1,44 @@
+class Environment
+types
+    private MessageRead = (seq of char * token * bool * bool)
+
+instance variables
+    public io: IO := new IO();
+    private messages: seq of Message := [];
+    private controllers: map token to Controller := { |-> };
+    private keyVault: KeyVault := new KeyVault();
+
+operations
+    public Environment: seq of char ==> Environment
+    Environment(messagesTraceFileName) == (
+        let mk_(-, messagesTrace) = io.freadval[seq of MessageRead](messagesTraceFileName) in
+            for all i in set inds messagesTrace do
+                messages := messages ^ [new Message(messagesTrace(i).#1, messagesTrace(i).#2, messagesTrace(i).#3, messagesTrace(i).#4)];
+    );
+
+    private AddController: Controller ==> ()
+	AddController(controller) == controllers := controllers ++ { controller.GetId() |-> controller }
+	pre controller.GetId() not in set dom controllers;
+
+    public Run: () ==> ()
+    Run() == (
+        for all i in set inds messages do (
+            def message = messages(i);
+            controllerId = message.GetControllerId() in (
+                if controllerId not in set dom controllers then
+                    def controller = new Controller(controllerId) in (
+                        AddController(controller);
+                        keyVault.AddController(controller);
+                    );
+                if message.GetMessageType() = "SendNewEffectiveCertificateAcknoledgement" then (
+                    controllers(controllerId).NextState(message);
+                    keyVault.NextState(message);
+                ) else if message.IsForKeyVault() then (
+                    keyVault.NextState(message);
+                ) else if not message.IsForKeyVault() then (
+                    controllers(controllerId).NextState(message);
+                )
+            )
+        )
+    )
+end Environment
