@@ -1,17 +1,17 @@
 class Environment
 types
-    private MessageRead = (seq of char * token * bool * bool)
+    private MessageRead = (seq of char * seq of char * bool * bool)
 
 instance variables
     public io: IO := new IO();
     private messages: seq of Message := [];
-    private controllers: map token to Controller := { |-> };
+    private controllers: map seq of char to Controller := { |-> };
     private keyVault: KeyVault := new KeyVault();
 
 operations
-    public Environment: seq of char ==> Environment
-    Environment(messagesTraceFileName) == (
-        let mk_(-, messagesTrace) = io.freadval[seq of MessageRead](messagesTraceFileName) in
+    public Environment: () ==> Environment
+    Environment() == (
+        let mk_(-, messagesTrace) = io.freadval[seq of MessageRead]("messagesTrace.txt") in
             for all i in set inds messagesTrace do
                 messages := messages ^ [new Message(messagesTrace(i).#1, messagesTrace(i).#2, messagesTrace(i).#3, messagesTrace(i).#4)];
     );
@@ -34,9 +34,9 @@ operations
                     controllers(controllerId).NextState(message);
                     keyVault.NextState(message);
                 ) else if message.IsForKeyVault() then (
-                    keyVault.NextState(message);
-                ) else if not message.IsForKeyVault() then (
                     controllers(controllerId).NextState(message);
+                ) else if not message.IsForKeyVault() then (
+                    keyVault.NextState(message);
                 )
             )
         )

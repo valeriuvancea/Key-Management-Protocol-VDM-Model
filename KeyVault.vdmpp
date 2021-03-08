@@ -31,7 +31,7 @@ values
 	];
 
 instance variables
-    private controllers: map token to ControllerWithKeyVaultState := { |-> };
+    private controllers: map seq of char to ControllerWithKeyVaultState := { |-> };
 
     inv forall controllerId in set dom controllers & controllers(controllerId).keyVaultState <> undefinedState;
 
@@ -62,7 +62,7 @@ operations
 	)
 	pre message.GetControllerId() in set dom controllers;
 
-	public pure GetControllerWithId: token ==> Controller
+	public pure GetControllerWithId: seq of char ==> Controller
 	GetControllerWithId(controllerId) == return controllers(controllerId).controller
 	pre controllerId in set dom controllers;
 

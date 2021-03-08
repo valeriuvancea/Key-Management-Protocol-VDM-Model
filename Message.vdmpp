@@ -14,16 +14,17 @@ values
 
 instance variables
     private messageType: seq of char;
-    private controllerId: token;
+    private controllerId: seq of char;
     private isForKeyVault: bool;
     private isBetweenControllers: bool;
 
     inv if (isForKeyVault) then isBetweenControllers <> true
         else if (isBetweenControllers) then isForKeyVault <> true
-             else true
+             else true;
+    inv messageType in set messageTypes;
 
 operations
-    public Message: seq of char * token * bool * bool ==> Message
+    public Message: seq of char * seq of char * bool * bool ==> Message
     Message(type, controllerID, forKeyVault, betweenControllers) == (
         messageType := type;
         controllerId := controllerID;
@@ -34,7 +35,7 @@ operations
     public pure GetMessageType: () ==> seq of char
     GetMessageType() == return messageType;
 
-    public pure GetControllerId: () ==> token
+    public pure GetControllerId: () ==> seq of char
     GetControllerId() == return controllerId;
 
     public pure IsForKeyVault: () ==> bool

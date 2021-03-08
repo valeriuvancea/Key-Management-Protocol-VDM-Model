@@ -30,13 +30,13 @@ values
 
 instance variables
 	private state: ControllerState :=  <Idle>;
-	private id: token;
+	private id: seq of char;
 	private mode: ControllerMode := <SparePart>;
 	
 	inv state <> undefinedState;
 	
 operations
-	public Controller: token ==> Controller
+	public Controller: seq of char ==> Controller
 	Controller(newId) == (
 		id := newId;
 	);
@@ -64,7 +64,7 @@ operations
 	public pure GetMode: () ==> ControllerMode
 	GetMode() == return mode;
 
-	public pure GetId: () ==> token
+	public pure GetId: () ==> seq of char
 	GetId() == return id;
 
 end Controller
