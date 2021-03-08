@@ -2,6 +2,10 @@ class GLOBAL
 values
 	public undefinedState = <Undefined>;
 
+operations
+	public NextState: Message ==> ()
+	 NextState(message) == is subclass responsibility;
+
 functions
 	protected GetNextStateFromSequenceUsingCurrentState[@T]: seq of @T * @T -> @T
 	GetNextStateFromSequenceUsingCurrentState(sequence, currentState) ==

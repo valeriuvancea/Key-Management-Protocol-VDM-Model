@@ -3,29 +3,29 @@ types
 	public ControllerMode = <Controller> | <SparePart>;
 	
 	private ControllerState = <Idle> |
-		<BroadcastSearchKv> | 
-		<JoinRequest> |
-		<SendChallengeReply> |
-		<SendChallenge> |
-		<SendEffectivePublicKey> |
+		<SearchingForKeyVault> | 
+		<WaitingToJoin> |
+		<WaitingForChallengeSolvedAcknowledgement> |
+		<WaitingForChallengeSolvedReply> |
+		<WaitingForNewEffectiveCertificate> |
 		<Connected> |
-		<SendNewKeyForRekeyRequest> |
+		<WaitingForNewEffectiveCertificateDuringRekeying> |
 		<Undefined>;
 	
 values
 	private sparePartStatesSequence: seq of ControllerState = [
 		<Idle>,
-		<BroadcastSearchKv>,
-		<JoinRequest>,
-		<SendChallengeReply>,
-		<SendChallenge>,
-		<SendEffectivePublicKey>,
+		<SearchingForKeyVault>,
+		<WaitingToJoin>,
+		<WaitingForChallengeSolvedAcknowledgement>,
+		<WaitingForChallengeSolvedReply>,
+		<WaitingForNewEffectiveCertificate>,
 		<Connected>
 	];
 
 	private controllerStatesSequence: seq of ControllerState = [
 		<Connected>,
-		<SendNewKeyForRekeyRequest>
+		<WaitingForNewEffectiveCertificateDuringRekeying>
 	];
 
 
@@ -44,8 +44,20 @@ operations
 		ipAddress := newIpAddress;
 	);
 	
-	public NextState: (/* should use a message object to decide what is the next state */) ==> ()
-	NextState() == skip
+	public NextState: Message ==> ()
+	NextState(message) == (
+		cases message.getMessageType():
+			"SendBroadcastToSearchKeyVault" -> state := <SearchingForKeyVault>,
+			"JoinRequest" -> state := <WaitingToJoin>,
+			"SendChallengeReply" -> state := <WaitingForChallengeSolvedAcknowledgement>,
+			"SendChallenge" -> state := <WaitingForChallengeSolvedReply>,
+			"SendNewEffectivePublicKey" -> state := <WaitingForNewEffectiveCertificate>,
+			"SendNewEffectiveCertificateAcknoledgement" -> state := <Connected>,
+			"SendNewEffectivePublicKeyWithSignature" -> state := <WaitingForNewEffectiveCertificateDuringRekeying>,
+			others -> state := undefinedState
+		end;
+	)
+	pre id = message.getControllerId()
 	post (
 		if mode = <SparePart> then 
 			state = GetNextStateFromSequenceUsingCurrentState[ControllerState](sparePartStatesSequence, state~) -- state~ is the previous state
