@@ -27,11 +27,15 @@ values
 		<WaitingForNewEffectiveCertificate>
 	];
 
+	private controllerCommunication
+
 
 instance variables
 	private state: ControllerState :=  <Idle>;
 	private id: seq of char;
 	private mode: ControllerMode := <SparePart>;
+	private effectiveCertificate: seq of char := "";
+	private publicKey: seq of char := ""
 	
 	inv state <> undefinedState;
 	
@@ -41,7 +45,7 @@ operations
 		id := newId;
 	);
 	
-	public NextState: Message ==> ()
+	public NextState: BaseMessage ==> ()
 	NextState(message) == (
 		cases message.GetMessageType():
 			"BroadcastToSearchKeyVault" -> state := <SearchingForKeyVault>,

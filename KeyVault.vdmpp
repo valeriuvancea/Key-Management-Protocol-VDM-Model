@@ -36,7 +36,7 @@ instance variables
     inv forall controllerId in set dom controllers & controllers(controllerId).keyVaultState <> undefinedState;
 
 operations
-	public NextState: Message ==> ()
+	public NextState: BaseMessage ==> ()
 	NextState(message) == (
 		cases message.GetMessageType():
 			"KeyVaultSearchBroadcastAcknowledgement" -> ModifyKeyVaultStateForControllerFromMessage(<WaitingForJoinRequest>, message),

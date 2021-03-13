@@ -1,0 +1,18 @@
+class SendNewEffectivePublicKeyMessage is subclass of BaseMessage
+
+operations
+    public SendNewEffectivePublicKeyMessage: seq of char * seq of char * bool * bool * seq of char * seq of char ==> SendNewEffectivePublicKeyMessage
+    SendNewEffectivePublicKeyMessage(messageType, controllerId, isForKeyVault, isBetweenControllers, effectivePublicKey, hash ) == (
+        AddField("effectivePublicKey", effectivePublicKey);
+        AddField("hash", hash);
+        BaseMessage(messageType, controllerId, isForKeyVault, isBetweenControllers)
+    )
+    post GetMessageType() = "SendNewEffectivePublicKey";
+
+    public pure GetEffectivePublicKey: () ==> seq of char
+    GetEffectivePublicKey() == return GetField("effectivePublicKey");
+
+    public pure GetHash: () ==> seq of char
+    GetHash() == return GetField("hash");
+
+end SendNewEffectivePublicKeyMessage

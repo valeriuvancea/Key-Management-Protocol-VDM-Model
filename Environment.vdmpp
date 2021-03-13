@@ -4,7 +4,7 @@ types
 
 instance variables
     public io: IO := new IO();
-    private messages: seq of Message := [];
+    private messages: seq of BaseMessage := [];
     private controllers: map seq of char to Controller := { |-> };
     private keyVault: KeyVault := new KeyVault();
 
@@ -13,7 +13,7 @@ operations
     Environment() == (
         let mk_(-, messagesTrace) = io.freadval[seq of MessageRead]("messagesTrace.txt") in
             for all i in set inds messagesTrace do
-                messages := messages ^ [new Message(messagesTrace(i).#1, messagesTrace(i).#2, messagesTrace(i).#3, messagesTrace(i).#4)];
+                messages := messages ^ [new BaseMessage(messagesTrace(i).#1, messagesTrace(i).#2, messagesTrace(i).#3, messagesTrace(i).#4)];
     );
 
     private AddController: Controller ==> ()

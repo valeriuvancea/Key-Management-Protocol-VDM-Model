@@ -1,0 +1,19 @@
+class DummyMessage is subclass of BaseMessage
+
+operations
+    public DummyMessage: seq of char * seq of char * bool * bool * seq of char * seq of char ==> DummyMessage
+    DummyMessage(messageType, controllerId, isForKeyVault, isBetweenControllers, senderId, encryptedData) == (
+        AddField("senderId", senderId);
+        AddField("encryptedData", encryptedData);
+        BaseMessage(messageType, controllerId, isForKeyVault, isBetweenControllers)
+    )
+    pre controllerId <> senderId
+    post GetMessageType() = "DummyMessage";
+
+    public pure GetSenderId: () ==> seq of char
+    GetSenderId() == return GetField("senderId");
+
+    public pure GetEncryptedData: () ==> seq of char
+    GetEncryptedData() == return GetField("encryptedData");
+
+end DummyMessage
