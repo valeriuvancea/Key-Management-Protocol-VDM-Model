@@ -1,13 +1,19 @@
 class SendNewEffectiveCertificateMessage is subclass of BaseMessage
+instance variables
+    private static effectiveCertificates: set of seq of char := {};
+    private static savedKeyVaultSigningCertificate: seq of char := "";
 
 operations
     public SendNewEffectiveCertificateMessage: seq of char * seq of char * bool * bool * seq of char * seq of char ==> SendNewEffectiveCertificateMessage
     SendNewEffectiveCertificateMessage(messageType, controllerId, isForKeyVault, isBetweenControllers, effectiveCertificate, keyVaultSigningCertificate) == (
         AddField("effectiveCertificate", effectiveCertificate);
         AddField("keyVaultSigningCertificate", keyVaultSigningCertificate);
-        BaseMessage(messageType, controllerId, isForKeyVault, isBetweenControllers)
+        effectiveCertificates := effectiveCertificates union {effectiveCertificate};
+        savedKeyVaultSigningCertificate := keyVaultSigningCertificate;
+        BaseMessage(messageType, controllerId, isForKeyVault, isBetweenControllers);
     )
-    post GetMessageType() = "SendNewEffectiveCertificate";
+    pre effectiveCertificate not in set effectiveCertificates
+    post GetMessageType() = "SendNewEffectiveCertificate" and (if savedKeyVaultSigningCertificate~ <> "" then savedKeyVaultSigningCertificate = savedKeyVaultSigningCertificate~ else true);
 
     public pure GetEffectiveCertificate: () ==> seq of char
     GetEffectiveCertificate() == return GetField("effectiveCertificate");

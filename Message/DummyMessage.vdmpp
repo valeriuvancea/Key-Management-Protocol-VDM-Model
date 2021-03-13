@@ -5,7 +5,7 @@ operations
     DummyMessage(messageType, controllerId, isForKeyVault, isBetweenControllers, senderId, encryptedData) == (
         AddField("senderId", senderId);
         AddField("encryptedData", encryptedData);
-        BaseMessage(messageType, controllerId, isForKeyVault, isBetweenControllers)
+        BaseMessage(messageType, controllerId, isForKeyVault, isBetweenControllers);
     )
     pre controllerId <> senderId
     post GetMessageType() = "DummyMessage";

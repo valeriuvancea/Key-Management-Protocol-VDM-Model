@@ -1,6 +1,6 @@
 class Environment
 types
-    private MessageRead = (seq of char * seq of char * bool * bool)
+    private MessageRead = (seq of char * seq of char * bool * bool * seq of char * seq of char)
 
 instance variables
     public io: IO := new IO();
@@ -13,7 +13,15 @@ operations
     Environment() == (
         let mk_(-, messagesTrace) = io.freadval[seq of MessageRead]("messagesTrace.txt") in
             for all i in set inds messagesTrace do
-                messages := messages ^ [new BaseMessage(messagesTrace(i).#1, messagesTrace(i).#2, messagesTrace(i).#3, messagesTrace(i).#4)];
+                let messageType: seq of char = messagesTrace(i).#1 in 
+                    cases messageType:
+                        "ControllerSearchBroadcastAcknowledgement" -> messages := messages ^ [new ControllerSearchBroadcastAcknowledgementMessage(messageType, messagesTrace(i).#2, messagesTrace(i).#3, messagesTrace(i).#4, messagesTrace(i).#5, messagesTrace(i).#6)],
+                        "DummyMessage" -> messages := messages ^ [new DummyMessage(messageType, messagesTrace(i).#2, messagesTrace(i).#3, messagesTrace(i).#4, messagesTrace(i).#5, messagesTrace(i).#6)],
+                        "SendKeyVaultCertificate" -> messages := messages ^ [new SendKeyVaultCertificateMessage(messageType, messagesTrace(i).#2, messagesTrace(i).#3, messagesTrace(i).#4, messagesTrace(i).#5)],
+                        "SendNewEffectiveCertificate" -> messages := messages ^ [new SendNewEffectiveCertificateMessage(messageType, messagesTrace(i).#2, messagesTrace(i).#3, messagesTrace(i).#4, messagesTrace(i).#5, messagesTrace(i).#6)],
+                        "SendNewEffectivePublicKey" -> messages := messages ^ [new SendNewEffectivePublicKeyMessage(messageType, messagesTrace(i).#2, messagesTrace(i).#3, messagesTrace(i).#4, messagesTrace(i).#5, messagesTrace(i).#6)],
+                        others -> messages := messages ^ [new BaseMessage(messageType, messagesTrace(i).#2, messagesTrace(i).#3, messagesTrace(i).#4)]
+                    end;
     );
 
     private AddController: Controller ==> ()
@@ -23,22 +31,40 @@ operations
     public Run: () ==> ()
     Run() == (
         for all i in set inds messages do (
-            def message = messages(i);
-            controllerId = message.GetControllerId() in (
-                if controllerId not in set dom controllers then
-                    def controller = new Controller(controllerId) in (
-                        AddController(controller);
-                        keyVault.AddController(controller);
-                    );
-                if message.GetMessageType() = "SendNewEffectiveCertificateAcknoledgement" then (
+            ProcessMessage(messages(i));
+        )
+    );
+
+    public ProcessMessage: BaseMessage ==> ()
+    ProcessMessage(message) == (
+        def controllerId = message.GetControllerId() in (
+            if controllerId not in set dom controllers then
+                def controller = new Controller(controllerId) in (
+                    AddController(controller);
+                    keyVault.AddController(controller);
+                );
+            cases message.GetMessageType():
+                "SendNewEffectiveCertificate", "SendNewEffectiveCertificateAcknoledgement", "ControllerSearchBroadcastAcknowledgement" -> (
                     controllers(controllerId).NextState(message);
                     keyVault.NextState(message);
-                ) else if message.IsForKeyVault() then (
-                    controllers(controllerId).NextState(message);
-                ) else if not message.IsForKeyVault() then (
-                    keyVault.NextState(message);
+                ),
+                "BroadcastToSearchControllers", "DummyMessage", "ControllerSearchBroadcastAcknowledgement" -> skip,
+                others -> (
+                    if message.IsForKeyVault() then (
+                        controllers(controllerId).NextState(message);
+                    ) else if not message.IsForKeyVault() then (
+                        keyVault.NextState(message);
+                    )
                 )
-            )
+            end;
         )
     )
+    pre if message.GetMessageType() = "BroadcastToSearchControllers" and message.GetMessageType() = "DummyMessage" and message.GetMessageType() = "ControllerSearchBroadcastAcknowledgement" then (
+        (if message.GetMessageType() = "ControllerSearchBroadcastAcknowledgement" then (
+            let controllerSearchBroadcastAcknowledgementMessage: ControllerSearchBroadcastAcknowledgementMessage = message in (
+                controllers(controllerSearchBroadcastAcknowledgementMessage.GetSenderId()).GetEffectiveCertificate() = controllerSearchBroadcastAcknowledgementMessage.GetEffectiveCertificate()
+            )
+        ) else true) and message.GetControllerId() in set dom controllers
+    ) else true;
+    
 end Environment

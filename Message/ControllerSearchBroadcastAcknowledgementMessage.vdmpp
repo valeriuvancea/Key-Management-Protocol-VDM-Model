@@ -5,7 +5,7 @@ operations
     ControllerSearchBroadcastAcknowledgementMessage(messageType, controllerId, isForKeyVault, isBetweenControllers, senderId, effectiveCertificate) == (
         AddField("senderId", senderId);
         AddField("effectiveCertificate", effectiveCertificate);
-        BaseMessage(messageType, controllerId, isForKeyVault, isBetweenControllers)
+        BaseMessage(messageType, controllerId, isForKeyVault, isBetweenControllers);
     )
     pre controllerId <> senderId
     post GetMessageType() = "ControllerSearchBroadcastAcknowledgement";

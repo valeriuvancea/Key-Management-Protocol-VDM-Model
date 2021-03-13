@@ -8,6 +8,7 @@ types
 		<WaitingForChallengeSolvedAcknowledgement> |
 		<WaitingForChallengeSolvedReply> |
 		<WaitingForNewEffectiveCertificate> |
+		<SavingNewEffectiveCertificate> |
 		<Connected> |
 		<Undefined>;
 	
@@ -19,23 +20,21 @@ values
 		<WaitingForChallengeSolvedAcknowledgement>,
 		<WaitingForChallengeSolvedReply>,
 		<WaitingForNewEffectiveCertificate>,
+		<SavingNewEffectiveCertificate>,
 		<Connected>
 	];
 
 	private controllerStatesSequence: seq of ControllerState = [
 		<Connected>,
-		<WaitingForNewEffectiveCertificate>
+		<WaitingForNewEffectiveCertificate>,
+		<SavingNewEffectiveCertificate>
 	];
-
-	private controllerCommunication
-
 
 instance variables
 	private state: ControllerState :=  <Idle>;
 	private id: seq of char;
 	private mode: ControllerMode := <SparePart>;
 	private effectiveCertificate: seq of char := "";
-	private publicKey: seq of char := ""
 	
 	inv state <> undefinedState;
 	
@@ -53,6 +52,12 @@ operations
 			"SendChallengeAnswer" -> state := <WaitingForChallengeSolvedAcknowledgement>,
 			"SendChallenge" -> state := <WaitingForChallengeSolvedReply>,
 			"SendNewEffectivePublicKey" -> state := <WaitingForNewEffectiveCertificate>,
+			"SendNewEffectiveCertificate" -> (
+				let sendNewEffectiveCertificate: SendNewEffectiveCertificateMessage = message in ( 
+					state := <SavingNewEffectiveCertificate>;
+					effectiveCertificate := sendNewEffectiveCertificate.GetEffectiveCertificate();
+				)
+			),
 			"SendNewEffectiveCertificateAcknoledgement" -> state := <Connected>,
 			others -> state := undefinedState
 		end;
@@ -70,5 +75,8 @@ operations
 
 	public pure GetId: () ==> seq of char
 	GetId() == return id;
+
+	public pure GetEffectiveCertificate: () ==> seq of char
+	GetEffectiveCertificate() == return effectiveCertificate;
 
 end Controller
