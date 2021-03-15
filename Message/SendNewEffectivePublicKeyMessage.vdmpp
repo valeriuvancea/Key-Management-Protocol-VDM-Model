@@ -1,0 +1,24 @@
+class SendNewEffectivePublicKeyMessage is subclass of BaseMessage
+instance variables
+    private static publicKeys: set of seq of char := {};
+    private static hashes: set of seq of char := {};
+
+operations
+    public SendNewEffectivePublicKeyMessage: seq of char * seq of char * bool * bool * seq of char * seq of char ==> SendNewEffectivePublicKeyMessage
+    SendNewEffectivePublicKeyMessage(messageType, controllerId, isForKeyVault, isBetweenControllers, effectivePublicKey, hash) == (
+        AddField("effectivePublicKey", effectivePublicKey);
+        AddField("hash", hash);
+        publicKeys := publicKeys union {effectivePublicKey};
+        hashes := hashes union {hash};
+        BaseMessage(messageType, controllerId, isForKeyVault, isBetweenControllers);
+    )
+    pre effectivePublicKey not in set publicKeys and hash not in set hashes
+    post GetMessageType() = "SendNewEffectivePublicKey";
+
+    public pure GetEffectivePublicKey: () ==> seq of char
+    GetEffectivePublicKey() == return GetField("effectivePublicKey");
+
+    public pure GetHash: () ==> seq of char
+    GetHash() == return GetField("hash");
+
+end SendNewEffectivePublicKeyMessage

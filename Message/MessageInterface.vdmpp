@@ -1,0 +1,19 @@
+class MessageInterface
+types
+    public fieldsTypes = seq of char | bool | real | seq of bool | seq of real;
+
+instance variables
+    private messageFields: map seq of char to fieldsTypes := { |-> };
+
+operations
+    protected AddField: seq of char * fieldsTypes ==> ()
+    AddField(fieldName, fieldValue) == messageFields := messageFields ++ {fieldName |-> fieldValue};
+
+    public pure GetField: seq of char ==> fieldsTypes
+    GetField(fieldName) == return messageFields(fieldName)
+    pre fieldName in set dom messageFields;
+
+    protected pure GetMessageFieldsNames: () ==> set of seq of char
+    GetMessageFieldsNames() == return dom messageFields;
+
+end MessageInterface

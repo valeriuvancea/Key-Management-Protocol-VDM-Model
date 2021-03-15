@@ -1,0 +1,17 @@
+class SendKeyVaultCertificateMessage is subclass of BaseMessage
+instance variables
+    savedKeyVaultCertificate: seq of char := "";
+
+operations
+    public SendKeyVaultCertificateMessage: seq of char * seq of char * bool * bool * seq of char ==> SendKeyVaultCertificateMessage
+    SendKeyVaultCertificateMessage(messageType, controllerId, isForKeyVault, isBetweenControllers, keyVaultCertificate) == (
+        AddField("keyVaultCertificate", keyVaultCertificate);
+        savedKeyVaultCertificate := keyVaultCertificate;
+        BaseMessage(messageType, controllerId, isForKeyVault, isBetweenControllers);
+    )
+    post GetMessageType() = "SendKeyVaultCertificate"  and (if savedKeyVaultCertificate~ <> "" then savedKeyVaultCertificate = savedKeyVaultCertificate~ else true);
+
+    public pure GetKeyVaultCertificate: () ==> seq of char
+    GetKeyVaultCertificate() == return GetField("keyVaultCertificate");
+
+end SendKeyVaultCertificateMessage

@@ -1,0 +1,49 @@
+class BaseMessage is subclass of MessageInterface
+values
+    protected messageTypes: set of seq of char = {
+        "BroadcastToSearchKeyVault",
+        "KeyVaultSearchBroadcastAcknowledgement",
+        "JoinRequest",
+        "SendChallenge",
+        "SendChallengeAnswer",
+        "SendKeyVaultCertificate",
+        "SendNewEffectivePublicKey",
+        "SendNewEffectiveCertificate",
+        "SendNewEffectiveCertificateAcknoledgement",
+        "SendReKeyRequest",
+        "BroadcastToSearchControllers",
+        "ControllerSearchBroadcastAcknowledgement",
+        "DummyMessage"
+    };
+
+instance variables
+
+    inv if {"isForKeyVault", "isBetweenControllers"} inter GetMessageFieldsNames() <> {} then
+            if IsForKeyVault() then IsBetweenControllers() <> true
+            else if IsBetweenControllers() then IsForKeyVault() <> true
+                else true
+        else true;
+
+operations
+    public BaseMessage: seq of char * seq of char * bool * bool ==> BaseMessage
+    BaseMessage(messageType, controllerId, isForKeyVault, isBetweenControllers) == (
+        AddField("messageType", messageType);
+        AddField("controllerId", controllerId);
+        AddField("isForKeyVault", isForKeyVault);
+        AddField("isBetweenControllers", isBetweenControllers);
+    )
+    pre messageType in set messageTypes;
+
+    public pure GetMessageType: () ==> seq of char
+    GetMessageType() == return GetField("messageType");
+
+    public pure GetControllerId: () ==> seq of char
+    GetControllerId() == return GetField("controllerId");
+
+    public pure IsForKeyVault: () ==> bool
+    IsForKeyVault() == return GetField("isForKeyVault");
+
+    public pure IsBetweenControllers: () ==> bool
+    IsBetweenControllers() == return GetField("isBetweenControllers");
+
+end BaseMessage
