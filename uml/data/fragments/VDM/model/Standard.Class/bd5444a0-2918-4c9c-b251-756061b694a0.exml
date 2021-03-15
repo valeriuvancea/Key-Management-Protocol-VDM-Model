@@ -1,0 +1,144 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Product&lt;Seq&lt;char&gt;,Seq&lt;char&gt;,bool,bool,Seq&lt;char&gt;,Seq&lt;char&gt;&gt;" version="4">
+  <OBJECT>
+    <ID name="Product&lt;Seq&lt;char&gt;,Seq&lt;char&gt;,bool,bool,Seq&lt;char&gt;,Seq&lt;char&gt;&gt;" mc="Standard.Class" uid="bd5444a0-2918-4c9c-b251-756061b694a0"/>
+    <PID name="Binding classes" mc="Standard.Package" uid="70661465-b497-4807-9f9c-b76d7f42949b"/>
+    <ATTRIBUTES>
+      <ATT name="IsActive">false</ATT>
+      <ATT name="IsMain">false</ATT>
+      <ATT name="IsElementary">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Product<Seq<char>,Seq<char>,bool,bool,Seq<char>,Seq<char>>]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="TemplateInstanciation">
+        <OBJECT>
+          <ID name="" mc="Standard.TemplateBinding" uid="0d50e3f9-2062-4319-b7ad-65c04c7a2386"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="ParameterSubstitution">
+              <OBJECT>
+                <ID name="" mc="Standard.TemplateParameterSubstitution" uid="e04d2ce6-9dbf-4810-834d-0e8a8318935e"/>
+                <ATTRIBUTES>
+                  <ATT name="Value"></ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Actual">
+                    <ID name="Seq&lt;char&gt;" mc="Standard.Class" uid="9f5c4af4-7170-4d1b-9b8f-9b147dc281ae"/>
+                  </LINK>
+                  <LINK relation="FormalParameter">
+                    <REFOBJ>
+                      <ID name="" mc="Standard.TemplateParameter" uid="c8580b13-c880-4755-9303-21c259bfb8b4"/>
+                    </REFOBJ>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="" mc="Standard.TemplateParameterSubstitution" uid="d77cbcb9-4654-49af-8424-301a3608b910"/>
+                <ATTRIBUTES>
+                  <ATT name="Value"></ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Actual">
+                    <ID name="Seq&lt;char&gt;" mc="Standard.Class" uid="9f5c4af4-7170-4d1b-9b8f-9b147dc281ae"/>
+                  </LINK>
+                  <LINK relation="FormalParameter">
+                    <REFOBJ>
+                      <ID name="" mc="Standard.TemplateParameter" uid="0f1e266e-6d82-46f5-80ad-6f66b6f9acdf"/>
+                    </REFOBJ>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="" mc="Standard.TemplateParameterSubstitution" uid="fe418d89-587a-437d-824d-d356a098d4f3"/>
+                <ATTRIBUTES>
+                  <ATT name="Value"></ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Actual">
+                    <ID name="bool" mc="Standard.DataType" uid="db688bf9-d428-4f95-894e-4ef7c3cd325e"/>
+                  </LINK>
+                  <LINK relation="FormalParameter">
+                    <REFOBJ>
+                      <ID name="" mc="Standard.TemplateParameter" uid="995c0395-cffb-4bdf-86fe-03a0bb11977c"/>
+                    </REFOBJ>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="" mc="Standard.TemplateParameterSubstitution" uid="7e19aa99-8681-4c9f-8b85-41672f209f88"/>
+                <ATTRIBUTES>
+                  <ATT name="Value"></ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Actual">
+                    <ID name="bool" mc="Standard.DataType" uid="db688bf9-d428-4f95-894e-4ef7c3cd325e"/>
+                  </LINK>
+                  <LINK relation="FormalParameter">
+                    <REFOBJ>
+                      <ID name="" mc="Standard.TemplateParameter" uid="bbff8341-d72e-4971-8949-123dd28689c9"/>
+                    </REFOBJ>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="" mc="Standard.TemplateParameterSubstitution" uid="4e497b7a-6a8d-4739-8b6a-f881ded43e9a"/>
+                <ATTRIBUTES>
+                  <ATT name="Value"></ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Actual">
+                    <ID name="Seq&lt;char&gt;" mc="Standard.Class" uid="9f5c4af4-7170-4d1b-9b8f-9b147dc281ae"/>
+                  </LINK>
+                  <LINK relation="FormalParameter">
+                    <REFOBJ>
+                      <ID name="" mc="Standard.TemplateParameter" uid="b53b79fe-b89f-4005-af1a-16e4ac18395b"/>
+                    </REFOBJ>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="" mc="Standard.TemplateParameterSubstitution" uid="135d5869-ed26-4995-af02-6e5eab203824"/>
+                <ATTRIBUTES>
+                  <ATT name="Value"></ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Actual">
+                    <ID name="Seq&lt;char&gt;" mc="Standard.Class" uid="9f5c4af4-7170-4d1b-9b8f-9b147dc281ae"/>
+                  </LINK>
+                  <LINK relation="FormalParameter">
+                    <REFOBJ>
+                      <ID name="" mc="Standard.TemplateParameter" uid="36d353b9-4dc6-4bc1-becb-44e814a5aabe"/>
+                    </REFOBJ>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+            <LINK relation="InstanciatedTemplate">
+              <ID name="Product&lt;A,B,C,D,E,F&gt;" mc="Standard.Class" uid="b989b569-382f-4408-9da4-757005905b4b"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

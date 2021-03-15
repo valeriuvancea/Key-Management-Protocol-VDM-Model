@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Basic VDM Types" version="4">
+  <OBJECT>
+    <ID name="Basic VDM Types" mc="Standard.Package" uid="d33fea98-7a82-431c-bb7e-5f001218cd24"/>
+    <PID name="vdm" mc="Standard.Package" uid="5c04cc3b-ec9b-4449-be69-315800e9d02a"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Basic VDM Types]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="&lt;Controller&gt;" mc="Standard.DataType" uid="46e55ec0-b107-46d3-a358-629adb4d9e42"/>
+        <COMPID name="&lt;SparePart&gt;" mc="Standard.DataType" uid="aa9dc330-90be-4921-b3b3-66b73faf14c4"/>
+        <COMPID name="&lt;Connected&gt;" mc="Standard.DataType" uid="026eddba-36de-4d8e-bf3f-bd5317da555e"/>
+        <COMPID name="&lt;Idle&gt;" mc="Standard.DataType" uid="fdf44d40-7206-4c38-9d9e-dce5545e3000"/>
+        <COMPID name="&lt;SavingNewEffectiveCertificate&gt;" mc="Standard.DataType" uid="d65feb41-e7da-4570-b780-ab207644faca"/>
+        <COMPID name="&lt;SearchingForKeyVault&gt;" mc="Standard.DataType" uid="f6dcf288-4802-44bb-afa6-cf73222056ab"/>
+        <COMPID name="&lt;Undefined&gt;" mc="Standard.DataType" uid="3a3b612d-9033-41d0-9418-fb666ad70a4b"/>
+        <COMPID name="&lt;WaitingForChallengeSolvedAcknowledgement&gt;" mc="Standard.DataType" uid="8cbf4e1f-b00a-46e7-a7db-30fbd5d684f6"/>
+        <COMPID name="&lt;WaitingForChallengeSolvedReply&gt;" mc="Standard.DataType" uid="aa1e60e2-8ab7-41fe-b52a-7db8a880dd4a"/>
+        <COMPID name="&lt;WaitingForNewEffectiveCertificate&gt;" mc="Standard.DataType" uid="0518e989-5568-4dad-9bf7-851a5d6b1728"/>
+        <COMPID name="&lt;WaitingToJoin&gt;" mc="Standard.DataType" uid="f5548b2d-5c1f-4615-bd50-eb16d2927185"/>
+        <COMPID name="bool" mc="Standard.DataType" uid="db688bf9-d428-4f95-894e-4ef7c3cd325e"/>
+        <COMPID name="&lt;Connected&gt;" mc="Standard.DataType" uid="0b6adc8f-f7d6-4c10-b40a-09792aed8f7e"/>
+        <COMPID name="&lt;Idle&gt;" mc="Standard.DataType" uid="f9c626e3-004e-4995-b360-34667341d330"/>
+        <COMPID name="&lt;Undefined&gt;" mc="Standard.DataType" uid="18e2c8dc-e886-46f5-9b0b-0e6f7dc1deb1"/>
+        <COMPID name="&lt;WaitingForChallengeRequest&gt;" mc="Standard.DataType" uid="79c8540a-8c63-4de9-be93-8e5d7433e0c7"/>
+        <COMPID name="&lt;WaitingForChallengeSolvedReply&gt;" mc="Standard.DataType" uid="b9e00130-7298-4292-aecb-5c7672a3fa18"/>
+        <COMPID name="&lt;WaitingForJoinRequest&gt;" mc="Standard.DataType" uid="1dffcbb3-353e-4538-88c4-603eaad57731"/>
+        <COMPID name="&lt;WaitingForNewEffectiveCertificateAcknowledgement&gt;" mc="Standard.DataType" uid="ad902d6b-fa24-4393-b044-802eaa9b30db"/>
+        <COMPID name="&lt;WaitingForNewEffectivePublicKey&gt;" mc="Standard.DataType" uid="4b984b09-3a3d-44f9-acf7-3ec5a616a625"/>
+        <COMPID name="real" mc="Standard.DataType" uid="e697f123-d6eb-4391-88d4-e753cac32c45"/>
+        <COMPID name="&lt;append&gt;" mc="Standard.DataType" uid="495c6b45-4cd0-433c-a49c-c9648a9da875"/>
+        <COMPID name="&lt;start&gt;" mc="Standard.DataType" uid="27178f0d-9ae2-44fc-8974-601e7ef3d5e4"/>
+        <COMPID name="Void" mc="Standard.DataType" uid="a9eb2425-fef1-4d5e-b399-1cc69bf9a04c"/>
+        <COMPID name="Any" mc="Standard.DataType" uid="a2a978dc-7b57-4685-8c03-4d1171f7b632"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

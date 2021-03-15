@@ -3,7 +3,7 @@ values
 	public undefinedState = <Undefined>;
 
 operations
-	public NextState: BaseMessage ==> ()
+	public NextState: MessageInterface ==> ()
 	 NextState(message) == is subclass responsibility;
 
 functions

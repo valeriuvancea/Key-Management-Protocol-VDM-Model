@@ -1,0 +1,86 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Map&lt;D,R&gt;" version="4">
+  <OBJECT>
+    <ID name="Map&lt;D,R&gt;" mc="Standard.Class" uid="9a0d83e7-a389-4e82-8034-2afdf49d28d8"/>
+    <PID name="Composite VDM Types" mc="Standard.Package" uid="0d43f4e9-31a4-4b70-a0f3-6f8f89861eff"/>
+    <ATTRIBUTES>
+      <ATT name="IsActive">false</ATT>
+      <ATT name="IsMain">false</ATT>
+      <ATT name="IsElementary">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Map<D,R>]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedOperation">
+        <OBJECT>
+          <ID name="D,R" mc="Standard.Operation" uid="b1622684-4d4a-41ef-b906-ebe607c830f0"/>
+          <ATTRIBUTES>
+            <ATT name="Concurrency">false</ATT>
+            <ATT name="Final">false</ATT>
+            <ATT name="Passing">MethodOut</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="IsClass">false</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="Name"><![CDATA[D,R]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="Template">
+              <OBJECT>
+                <ID name="" mc="Standard.TemplateParameter" uid="9b246ed7-021a-480e-b660-e87c5a449eaa"/>
+                <ATTRIBUTES>
+                  <ATT name="DefaultValue"></ATT>
+                  <ATT name="IsValueParameter">false</ATT>
+                  <ATT name="IsElementary">false</ATT>
+                  <ATT name="IsAbstract">false</ATT>
+                  <ATT name="IsLeaf">false</ATT>
+                  <ATT name="IsRoot">false</ATT>
+                  <ATT name="Visibility">Public</ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="OwnedParameterElement">
+                    <COMPID name="D" mc="Standard.Class" uid="da322fc0-984c-442c-b5da-ce91a61e94e3"/>
+                  </COMP>
+                  <LINK relation="Extension">
+                    <FOREIGNID name="UML2ClassifierTemplateParameter" mc="Infrastructure.Stereotype" uid="4a427283-5d09-11df-a996-001302895b2b"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="" mc="Standard.TemplateParameter" uid="f8d3d696-c98a-48f0-acb4-3fef95040e63"/>
+                <ATTRIBUTES>
+                  <ATT name="DefaultValue"></ATT>
+                  <ATT name="IsValueParameter">false</ATT>
+                  <ATT name="IsElementary">false</ATT>
+                  <ATT name="IsAbstract">false</ATT>
+                  <ATT name="IsLeaf">false</ATT>
+                  <ATT name="IsRoot">false</ATT>
+                  <ATT name="Visibility">Public</ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="OwnedParameterElement">
+                    <COMPID name="R" mc="Standard.Class" uid="0625c338-3e87-4223-85e8-f49524084229"/>
+                  </COMP>
+                  <LINK relation="Extension">
+                    <FOREIGNID name="UML2ClassifierTemplateParameter" mc="Infrastructure.Stereotype" uid="4a427283-5d09-11df-a996-001302895b2b"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+            <LINK relation="Extension">
+              <FOREIGNID name="UML2RedefinableTemplateSignature" mc="Infrastructure.Stereotype" uid="90a0e341-5d0d-11df-a996-001302895b2b"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

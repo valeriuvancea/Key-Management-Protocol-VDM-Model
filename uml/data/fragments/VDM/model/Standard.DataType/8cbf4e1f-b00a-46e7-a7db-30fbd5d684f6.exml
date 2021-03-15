@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="&lt;WaitingForChallengeSolvedAcknowledgement&gt;" version="4">
+  <OBJECT>
+    <ID name="&lt;WaitingForChallengeSolvedAcknowledgement&gt;" mc="Standard.DataType" uid="8cbf4e1f-b00a-46e7-a7db-30fbd5d684f6"/>
+    <PID name="Basic VDM Types" mc="Standard.Package" uid="d33fea98-7a82-431c-bb7e-5f001218cd24"/>
+    <ATTRIBUTES>
+      <ATT name="IsElementary">true</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[<WaitingForChallengeSolvedAcknowledgement>]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES></DEPENDENCIES>
+  </OBJECT>
+</EXT>

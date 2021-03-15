@@ -58,7 +58,10 @@ operations
 					effectiveCertificate := sendNewEffectiveCertificate.GetEffectiveCertificate();
 				)
 			),
-			"SendNewEffectiveCertificateAcknoledgement" -> state := <Connected>,
+			"SendNewEffectiveCertificateAcknoledgement" -> (
+				state := <Connected>;
+				mode := <Controller>;
+			),
 			others -> state := undefinedState
 		end;
 	)

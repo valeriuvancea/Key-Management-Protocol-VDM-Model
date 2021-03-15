@@ -1,0 +1,72 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Product&lt;bool,Optional&lt;p&gt;&gt;" version="4">
+  <OBJECT>
+    <ID name="Product&lt;bool,Optional&lt;p&gt;&gt;" mc="Standard.Class" uid="ca09454a-5a0d-42de-b0d6-9589f0c7a493"/>
+    <PID name="Binding classes" mc="Standard.Package" uid="70661465-b497-4807-9f9c-b76d7f42949b"/>
+    <ATTRIBUTES>
+      <ATT name="IsActive">false</ATT>
+      <ATT name="IsMain">false</ATT>
+      <ATT name="IsElementary">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Product<bool,Optional<p>>]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="TemplateInstanciation">
+        <OBJECT>
+          <ID name="" mc="Standard.TemplateBinding" uid="846ca9ac-ee04-474e-a8ad-5db9e722a9e7"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="ParameterSubstitution">
+              <OBJECT>
+                <ID name="" mc="Standard.TemplateParameterSubstitution" uid="2c223267-e248-4065-8761-3453b94da2ae"/>
+                <ATTRIBUTES>
+                  <ATT name="Value"></ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Actual">
+                    <ID name="bool" mc="Standard.DataType" uid="db688bf9-d428-4f95-894e-4ef7c3cd325e"/>
+                  </LINK>
+                  <LINK relation="FormalParameter">
+                    <REFOBJ>
+                      <ID name="" mc="Standard.TemplateParameter" uid="0b07171a-54a1-4a98-9597-6a418e0e815c"/>
+                    </REFOBJ>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="" mc="Standard.TemplateParameterSubstitution" uid="bd0ef9ef-42dd-4878-a880-cae4fd1f6326"/>
+                <ATTRIBUTES>
+                  <ATT name="Value"></ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Actual">
+                    <ID name="Optional&lt;p&gt;" mc="Standard.Class" uid="af64a95b-a6ee-4a6a-88cd-fefdfcc6061e"/>
+                  </LINK>
+                  <LINK relation="FormalParameter">
+                    <REFOBJ>
+                      <ID name="" mc="Standard.TemplateParameter" uid="f92cc0b3-7e73-4899-a0cc-c5f810c3260e"/>
+                    </REFOBJ>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+            <LINK relation="InstanciatedTemplate">
+              <ID name="Product&lt;A,B&gt;" mc="Standard.Class" uid="947f926b-f915-4f9e-9322-a1c009d794a0"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

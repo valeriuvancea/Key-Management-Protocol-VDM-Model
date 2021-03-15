@@ -1,0 +1,86 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Product&lt;A,B&gt;" version="4">
+  <OBJECT>
+    <ID name="Product&lt;A,B&gt;" mc="Standard.Class" uid="947f926b-f915-4f9e-9322-a1c009d794a0"/>
+    <PID name="Composite VDM Types" mc="Standard.Package" uid="0d43f4e9-31a4-4b70-a0f3-6f8f89861eff"/>
+    <ATTRIBUTES>
+      <ATT name="IsActive">false</ATT>
+      <ATT name="IsMain">false</ATT>
+      <ATT name="IsElementary">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Product<A,B>]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedOperation">
+        <OBJECT>
+          <ID name="A,B" mc="Standard.Operation" uid="0bb7a5f8-3dad-4b00-be88-b9dabff4cc0b"/>
+          <ATTRIBUTES>
+            <ATT name="Concurrency">false</ATT>
+            <ATT name="Final">false</ATT>
+            <ATT name="Passing">MethodOut</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="IsClass">false</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="Name"><![CDATA[A,B]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="Template">
+              <OBJECT>
+                <ID name="" mc="Standard.TemplateParameter" uid="0b07171a-54a1-4a98-9597-6a418e0e815c"/>
+                <ATTRIBUTES>
+                  <ATT name="DefaultValue"></ATT>
+                  <ATT name="IsValueParameter">false</ATT>
+                  <ATT name="IsElementary">false</ATT>
+                  <ATT name="IsAbstract">false</ATT>
+                  <ATT name="IsLeaf">false</ATT>
+                  <ATT name="IsRoot">false</ATT>
+                  <ATT name="Visibility">Public</ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="OwnedParameterElement">
+                    <COMPID name="A" mc="Standard.Class" uid="ee00e776-199b-4194-9ffb-11a49fce037d"/>
+                  </COMP>
+                  <LINK relation="Extension">
+                    <FOREIGNID name="UML2ClassifierTemplateParameter" mc="Infrastructure.Stereotype" uid="4a427283-5d09-11df-a996-001302895b2b"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="" mc="Standard.TemplateParameter" uid="f92cc0b3-7e73-4899-a0cc-c5f810c3260e"/>
+                <ATTRIBUTES>
+                  <ATT name="DefaultValue"></ATT>
+                  <ATT name="IsValueParameter">false</ATT>
+                  <ATT name="IsElementary">false</ATT>
+                  <ATT name="IsAbstract">false</ATT>
+                  <ATT name="IsLeaf">false</ATT>
+                  <ATT name="IsRoot">false</ATT>
+                  <ATT name="Visibility">Public</ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="OwnedParameterElement">
+                    <COMPID name="B" mc="Standard.Class" uid="65fc88e4-8d1d-4ec8-910f-7cab944f02c3"/>
+                  </COMP>
+                  <LINK relation="Extension">
+                    <FOREIGNID name="UML2ClassifierTemplateParameter" mc="Infrastructure.Stereotype" uid="4a427283-5d09-11df-a996-001302895b2b"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+            <LINK relation="Extension">
+              <FOREIGNID name="UML2RedefinableTemplateSignature" mc="Infrastructure.Stereotype" uid="90a0e341-5d0d-11df-a996-001302895b2b"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

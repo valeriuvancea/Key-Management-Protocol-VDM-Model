@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Binding classes" version="4">
+  <OBJECT>
+    <ID name="Binding classes" mc="Standard.Package" uid="70661465-b497-4807-9f9c-b76d7f42949b"/>
+    <PID name="vdm" mc="Standard.Package" uid="5c04cc3b-ec9b-4449-be69-315800e9d02a"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Binding classes]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="Product&lt;Seq&lt;char&gt;,Seq&lt;char&gt;,bool,bool,Seq&lt;char&gt;,Seq&lt;char&gt;&gt;" mc="Standard.Class" uid="bd5444a0-2918-4c9c-b251-756061b694a0"/>
+        <COMPID name="Seq&lt;char&gt;" mc="Standard.Class" uid="9f5c4af4-7170-4d1b-9b8f-9b147dc281ae"/>
+        <COMPID name="Union&lt;bool,real,Seq&lt;bool&gt;,Seq&lt;char&gt;,Seq&lt;real&gt;&gt;" mc="Standard.Class" uid="f5fda7f7-6821-4456-adff-04c13d1500d9"/>
+        <COMPID name="Seq&lt;bool&gt;" mc="Standard.Class" uid="d49dedec-1f8d-45b4-8c3b-5eb5d6130c71"/>
+        <COMPID name="Seq&lt;real&gt;" mc="Standard.Class" uid="d6678ba7-ff19-4d49-abc5-b85c01565af7"/>
+        <COMPID name="Seq&lt;Controller::ControllerState&gt;" mc="Standard.Class" uid="41f81ecb-b9eb-4852-8235-063b2d1d5200"/>
+        <COMPID name="Seq&lt;BaseMessage&gt;" mc="Standard.Class" uid="b84d4e3b-84e8-42d8-80f2-584ca34cafa0"/>
+        <COMPID name="Map&lt;Seq&lt;char&gt;,Controller&gt;" mc="Standard.Class" uid="bbfe2e8b-76bd-4659-9427-678b93ce2fc6"/>
+        <COMPID name="Seq&lt;KeyVault::KeyVaultState&gt;" mc="Standard.Class" uid="0df5f1fd-79de-432a-b4be-3ba589f6e61c"/>
+        <COMPID name="Map&lt;Seq&lt;char&gt;,KeyVault::ControllerWithKeyVaultState&gt;" mc="Standard.Class" uid="df6a2cef-701a-49a9-9013-56de359d03bf"/>
+        <COMPID name="Set&lt;Seq&lt;char&gt;&gt;" mc="Standard.Class" uid="25c4e258-4caa-4b98-9441-cbd7811a82a6"/>
+        <COMPID name="Map&lt;Seq&lt;char&gt;,MessageInterface::fieldsTypes&gt;" mc="Standard.Class" uid="52d0d895-ce25-441c-a08f-c1834a5c5d4b"/>
+        <COMPID name="Product&lt;bool,Optional&lt;p&gt;&gt;" mc="Standard.Class" uid="ca09454a-5a0d-42de-b0d6-9589f0c7a493"/>
+        <COMPID name="Optional&lt;p&gt;" mc="Standard.Class" uid="af64a95b-a6ee-4a6a-88cd-fefdfcc6061e"/>
+        <COMPID name="Optional&lt;IO::filedirective&gt;" mc="Standard.Class" uid="adb00c7c-cdd0-4c43-a0dd-a0ea474a8f23"/>
+        <COMPID name="Seq&lt;Any&gt;" mc="Standard.Class" uid="77e5e0bf-6795-439a-b7d3-6eb702f36ac1"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>
