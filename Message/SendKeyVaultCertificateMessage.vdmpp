@@ -9,7 +9,7 @@ operations
         savedKeyVaultCertificate := keyVaultCertificate;
         BaseMessage(messageType, controllerId, isForKeyVault, isBetweenControllers);
     )
-    post GetMessageType() = "SendKeyVaultCertificate"  and (if savedKeyVaultCertificate~ <> "" then savedKeyVaultCertificate = savedKeyVaultCertificate~ else true);
+    post GetMessageType() = "SendKeyVaultCertificate"  and savedKeyVaultCertificate~ <> "" => savedKeyVaultCertificate = savedKeyVaultCertificate~;
 
     public pure GetKeyVaultCertificate: () ==> seq of char
     GetKeyVaultCertificate() == return GetField("keyVaultCertificate");

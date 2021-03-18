@@ -18,11 +18,9 @@ values
 
 instance variables
 
-    inv if {"isForKeyVault", "isBetweenControllers"} inter GetMessageFieldsNames() <> {} then
-            if IsForKeyVault() then IsBetweenControllers() <> true
-            else if IsBetweenControllers() then IsForKeyVault() <> true
-                else true
-        else true;
+    inv {"isForKeyVault", "isBetweenControllers"} inter GetMessageFieldsNames() <> {} =>
+        IsForKeyVault() => IsBetweenControllers() <> true and
+        IsBetweenControllers() => IsForKeyVault() <> true
 
 operations
     public BaseMessage: seq of char * seq of char * bool * bool ==> BaseMessage

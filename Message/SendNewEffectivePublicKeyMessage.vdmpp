@@ -12,7 +12,7 @@ operations
         hashes := hashes union {hash};
         BaseMessage(messageType, controllerId, isForKeyVault, isBetweenControllers);
     )
-    pre effectivePublicKey not in set publicKeys and hash not in set hashes
+    pre effectivePublicKey not in set publicKeys and hash not in set hashes and len hash = 256
     post GetMessageType() = "SendNewEffectivePublicKey";
 
     public pure GetEffectivePublicKey: () ==> seq of char

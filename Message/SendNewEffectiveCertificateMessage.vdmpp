@@ -13,7 +13,7 @@ operations
         BaseMessage(messageType, controllerId, isForKeyVault, isBetweenControllers);
     )
     pre effectiveCertificate not in set effectiveCertificates
-    post GetMessageType() = "SendNewEffectiveCertificate" and (if savedKeyVaultSigningCertificate~ <> "" then savedKeyVaultSigningCertificate = savedKeyVaultSigningCertificate~ else true);
+    post GetMessageType() = "SendNewEffectiveCertificate" and savedKeyVaultSigningCertificate~ <> "" => savedKeyVaultSigningCertificate = savedKeyVaultSigningCertificate~;
 
     public pure GetEffectiveCertificate: () ==> seq of char
     GetEffectiveCertificate() == return GetField("effectiveCertificate");
