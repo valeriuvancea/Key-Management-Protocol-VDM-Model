@@ -49,14 +49,12 @@ operations
 		end;
 	)
     pre message.GetControllerId() in set dom controllers
-	post (
-		if controllers(message.GetControllerId()).keyVaultState <> <Idle> then (
+	post controllers(message.GetControllerId()).keyVaultState <> <Idle> =>
 			if controllers(message.GetControllerId()).controller.GetMode() = <SparePart> then 
 				controllers(message.GetControllerId()).keyVaultState = GetNextStateFromSequenceUsingCurrentState[KeyVaultState](sparePartStatesSequence, (controllers~)(message.GetControllerId()).keyVaultState) -- controllers~ is the previous controllers object
 			else 
 				controllers(message.GetControllerId()).keyVaultState = GetNextStateFromSequenceUsingCurrentState[KeyVaultState](controllerStatesSequence, (controllers~)(message.GetControllerId()).keyVaultState) 
-		) else true
-	) and controllers(message.GetControllerId()).keyVaultState <> (controllers~)(message.GetControllerId()).keyVaultState;
+		and controllers(message.GetControllerId()).keyVaultState <> (controllers~)(message.GetControllerId()).keyVaultState;
 
 	private ModifyKeyVaultStateForControllerFromMessage: KeyVaultState * BaseMessage ==> ()
 	ModifyKeyVaultStateForControllerFromMessage(newState, message) == (

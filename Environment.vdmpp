@@ -59,14 +59,13 @@ operations
             end;
         )
     )
-    pre if message.GetMessageType() in set {"BroadcastToSearchControllers", "DummyMessage", "ControllerSearchBroadcastAcknowledgement"} then (
-        (if message.GetMessageType() = "ControllerSearchBroadcastAcknowledgement" then (
-            let controllerSearchBroadcastAcknowledgementMessage: ControllerSearchBroadcastAcknowledgementMessage = message in (
-                if controllers(controllerSearchBroadcastAcknowledgementMessage.GetSenderId()).GetEffectiveCertificate() <> "" then (
+    pre message.GetMessageType() in set {"BroadcastToSearchControllers", "DummyMessage", "ControllerSearchBroadcastAcknowledgement"} =>(
+        message.GetMessageType() = "ControllerSearchBroadcastAcknowledgement" => (
+            let controllerSearchBroadcastAcknowledgementMessage: ControllerSearchBroadcastAcknowledgementMessage = message in
+                controllers(controllerSearchBroadcastAcknowledgementMessage.GetSenderId()).GetEffectiveCertificate() <> "" =>
                     controllers(controllerSearchBroadcastAcknowledgementMessage.GetSenderId()).GetEffectiveCertificate() = controllerSearchBroadcastAcknowledgementMessage.GetEffectiveCertificate()
-                ) else true
-            )
-        ) else true) and message.GetControllerId() in set dom controllers
-    ) else true;
+        )
+        and message.GetControllerId() in set dom controllers
+    );
     
 end Environment

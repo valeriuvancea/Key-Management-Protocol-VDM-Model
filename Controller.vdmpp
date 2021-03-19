@@ -66,14 +66,12 @@ operations
 		end;
 	)
 	pre id = message.GetControllerId()
-	post (
-		if state <> <Idle> then (
+	post state <> <Idle> =>
 			if mode = <SparePart> then 
 				state = GetNextStateFromSequenceUsingCurrentState[ControllerState](sparePartStatesSequence, state~) -- state~ is the previous state
 			else 
 				state = GetNextStateFromSequenceUsingCurrentState[ControllerState](controllerStatesSequence, state~)
-		) else true
-	) and state <> state~;
+		and state <> state~;
 
 	public pure GetMode: () ==> ControllerMode
 	GetMode() == return mode;
