@@ -1,6 +1,6 @@
 class Environment
 types
-    private MessageRead = (seq of char * seq of char * bool * bool * seq of char * seq of char)
+    private MessageRead = (seq of char * seq of char * bool * bool * seq of char * seq of char) | (seq of char * seq of char * bool * bool * seq of char) | (seq of char * seq of char * bool * bool)
 
 instance variables
     public io: IO := new IO();
@@ -11,7 +11,7 @@ instance variables
 operations
     public Environment: () ==> Environment
     Environment() == (
-        let mk_(-, messagesTrace) = io.freadval[seq of MessageRead]("messagesTrace.txt") in
+        let mk_(-, messagesTrace) = io.freadval[seq of MessageRead]("trace_two_controllers.txt") in
             for all i in set inds messagesTrace do
                 let messageType: seq of char = messagesTrace(i).#1 in 
                     cases messageType:

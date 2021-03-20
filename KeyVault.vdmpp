@@ -45,11 +45,12 @@ operations
 			"SendChallengeAnswer" -> ModifyKeyVaultStateForControllerFromMessage(<WaitingForNewEffectivePublicKey>, message),
 			"SendNewEffectiveCertificate" -> ModifyKeyVaultStateForControllerFromMessage(<WaitingForNewEffectiveCertificateAcknowledgement>, message),
 			"SendNewEffectiveCertificateAcknoledgement" -> ModifyKeyVaultStateForControllerFromMessage(<Connected>, message),
+			"SendReKeyRequest" -> ModifyKeyVaultStateForControllerFromMessage(<WaitingForNewEffectivePublicKey>, message),
 			others -> ModifyKeyVaultStateForControllerFromMessage(undefinedState, message)
 		end;
 	)
     pre message.GetControllerId() in set dom controllers
-	post controllers(message.GetControllerId()).keyVaultState <> <Idle> =>
+	post (controllers~)(message.GetControllerId()).keyVaultState <> <Idle> =>
 			if controllers(message.GetControllerId()).controller.GetMode() = <SparePart> then 
 				controllers(message.GetControllerId()).keyVaultState = GetNextStateFromSequenceUsingCurrentState[KeyVaultState](sparePartStatesSequence, (controllers~)(message.GetControllerId()).keyVaultState) -- controllers~ is the previous controllers object
 			else 
