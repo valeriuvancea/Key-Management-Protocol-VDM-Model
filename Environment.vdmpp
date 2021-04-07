@@ -1,6 +1,7 @@
 class Environment
 types
-    private MessageRead = (seq of char * seq of char * bool * bool * seq of char * seq of char) | (seq of char * seq of char * bool * bool * seq of char) | (seq of char * seq of char * bool * bool)
+    private MessageArgumentType = seq of char | real | int | bool | token | map seq of char to MessageArgumentType | seq of MessageArgumentType;
+    private MessageRead = map seq of char to MessageArgumentType;
 
 instance variables
     public io: IO := new IO();
@@ -13,15 +14,17 @@ operations
     Environment() == (
         let mk_(-, messagesTrace) = io.freadval[seq of MessageRead]("trace_two_controllers.txt") in
             for all i in set inds messagesTrace do
-                let messageType: seq of char = messagesTrace(i).#1 in 
-                    cases messageType:
-                        "ControllerSearchBroadcastAcknowledgement" -> messages := messages ^ [new ControllerSearchBroadcastAcknowledgementMessage(messageType, messagesTrace(i).#2, messagesTrace(i).#3, messagesTrace(i).#4, messagesTrace(i).#5, messagesTrace(i).#6)],
-                        "DummyMessage" -> messages := messages ^ [new DummyMessage(messageType, messagesTrace(i).#2, messagesTrace(i).#3, messagesTrace(i).#4, messagesTrace(i).#5, messagesTrace(i).#6)],
-                        "SendKeyVaultCertificate" -> messages := messages ^ [new SendKeyVaultCertificateMessage(messageType, messagesTrace(i).#2, messagesTrace(i).#3, messagesTrace(i).#4, messagesTrace(i).#5)],
-                        "SendNewEffectiveCertificate" -> messages := messages ^ [new SendNewEffectiveCertificateMessage(messageType, messagesTrace(i).#2, messagesTrace(i).#3, messagesTrace(i).#4, messagesTrace(i).#5, messagesTrace(i).#6)],
-                        "SendNewEffectivePublicKey" -> messages := messages ^ [new SendNewEffectivePublicKeyMessage(messageType, messagesTrace(i).#2, messagesTrace(i).#3, messagesTrace(i).#4, messagesTrace(i).#5, messagesTrace(i).#6)],
-                        others -> messages := messages ^ [new BaseMessage(messageType, messagesTrace(i).#2, messagesTrace(i).#3, messagesTrace(i).#4)]
-                    end;
+                if "type" in set dom messagesTrace(i) then (
+                    let messageType: seq of char = messagesTrace(i)("type") in 
+                        cases messageType:
+                            "ControllerSearchBroadcastAcknowledgement" -> messages := messages ^ [new ControllerSearchBroadcastAcknowledgementMessage(messageType, messagesTrace(i)("controller_id"), messagesTrace(i)("isForKeyVault"), messagesTrace(i)("sender_id"), messagesTrace(i)("cert_eff"))],
+                            "DummyMessage" -> messages := messages ^ [new DummyMessage(messageType, messagesTrace(i)("controller_id"), messagesTrace(i)("isForKeyVault"), messagesTrace(i)("sender_id"), messagesTrace(i)("encrypted_data"))],
+                            "SendKeyVaultCertificate" -> messages := messages ^ [new SendKeyVaultCertificateMessage(messageType, messagesTrace(i)("controller_id"), messagesTrace(i)("isForKeyVault"), messagesTrace(i)("cert_kv"))],
+                            "SendNewEffectiveCertificate" -> messages := messages ^ [new SendNewEffectiveCertificateMessage(messageType, messagesTrace(i)("controller_id"), messagesTrace(i)("isForKeyVault"), messagesTrace(i)("cert_eff"), messagesTrace(i)("cert_ca"))],
+                            "SendNewEffectivePublicKey" -> messages := messages ^ [new SendNewEffectivePublicKeyMessage(messageType, messagesTrace(i)("controller_id"), messagesTrace(i)("isForKeyVault"), messagesTrace(i)("pk_eff"), messagesTrace(i)("hash"))],
+                            others -> messages := messages ^ [new BaseMessage(messageType, messagesTrace(i)("controller_id"), messagesTrace(i)("isForKeyVault"))]
+                        end;
+                );
     );
 
     private AddController: Controller ==> ()

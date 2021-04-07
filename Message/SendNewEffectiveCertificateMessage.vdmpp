@@ -4,13 +4,13 @@ instance variables
     private static savedKeyVaultSigningCertificate: seq of char := "";
 
 operations
-    public SendNewEffectiveCertificateMessage: seq of char * seq of char * bool * bool * seq of char * seq of char ==> SendNewEffectiveCertificateMessage
-    SendNewEffectiveCertificateMessage(messageType, controllerId, isForKeyVault, isBetweenControllers, effectiveCertificate, keyVaultSigningCertificate) == (
+    public SendNewEffectiveCertificateMessage: seq of char * seq of char * bool * seq of char * seq of char ==> SendNewEffectiveCertificateMessage
+    SendNewEffectiveCertificateMessage(messageType, controllerId, isForKeyVault, effectiveCertificate, keyVaultSigningCertificate) == (
         AddField("effectiveCertificate", effectiveCertificate);
         AddField("keyVaultSigningCertificate", keyVaultSigningCertificate);
         effectiveCertificates := effectiveCertificates union {effectiveCertificate};
         savedKeyVaultSigningCertificate := keyVaultSigningCertificate;
-        BaseMessage(messageType, controllerId, isForKeyVault, isBetweenControllers);
+        BaseMessage(messageType, controllerId, isForKeyVault);
     )
     pre effectiveCertificate not in set effectiveCertificates
     post GetMessageType() = "SendNewEffectiveCertificate" and savedKeyVaultSigningCertificate~ <> "" => savedKeyVaultSigningCertificate = savedKeyVaultSigningCertificate~;
