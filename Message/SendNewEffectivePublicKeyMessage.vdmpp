@@ -4,13 +4,13 @@ instance variables
     private static hashes: set of seq of char := {};
 
 operations
-    public SendNewEffectivePublicKeyMessage: seq of char * seq of char * bool * bool * seq of char * seq of char ==> SendNewEffectivePublicKeyMessage
-    SendNewEffectivePublicKeyMessage(messageType, controllerId, isForKeyVault, isBetweenControllers, effectivePublicKey, hash) == (
+    public SendNewEffectivePublicKeyMessage: seq of char * seq of char * bool * seq of char * seq of char ==> SendNewEffectivePublicKeyMessage
+    SendNewEffectivePublicKeyMessage(messageType, controllerId, isForKeyVault, effectivePublicKey, hash) == (
         AddField("effectivePublicKey", effectivePublicKey);
         AddField("hash", hash);
         publicKeys := publicKeys union {effectivePublicKey};
         hashes := hashes union {hash};
-        BaseMessage(messageType, controllerId, isForKeyVault, isBetweenControllers);
+        BaseMessage(messageType, controllerId, isForKeyVault);
     )
     pre effectivePublicKey not in set publicKeys and hash not in set hashes and len hash = 512
     post GetMessageType() = "SendNewEffectivePublicKey";

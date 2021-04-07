@@ -16,19 +16,12 @@ values
         "DummyMessage"
     };
 
-instance variables
-
-    inv {"isForKeyVault", "isBetweenControllers"} inter GetMessageFieldsNames() <> {} =>
-        IsForKeyVault() => IsBetweenControllers() <> true and
-        IsBetweenControllers() => IsForKeyVault() <> true
-
 operations
-    public BaseMessage: seq of char * seq of char * bool * bool ==> BaseMessage
-    BaseMessage(messageType, controllerId, isForKeyVault, isBetweenControllers) == (
+    public BaseMessage: seq of char * seq of char * bool ==> BaseMessage
+    BaseMessage(messageType, controllerId, isForKeyVault) == (
         AddField("messageType", messageType);
         AddField("controllerId", controllerId);
         AddField("isForKeyVault", isForKeyVault);
-        AddField("isBetweenControllers", isBetweenControllers);
     )
     pre messageType in set messageTypes;
 
@@ -40,8 +33,5 @@ operations
 
     public pure IsForKeyVault: () ==> bool
     IsForKeyVault() == return GetField("isForKeyVault");
-
-    public pure IsBetweenControllers: () ==> bool
-    IsBetweenControllers() == return GetField("isBetweenControllers");
 
 end BaseMessage
