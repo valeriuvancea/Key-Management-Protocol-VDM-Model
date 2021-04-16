@@ -32,7 +32,6 @@ values
 
 instance variables
     private controllers: map seq of char to ControllerWithKeyVaultState := { |-> };
-
     inv forall controllerId in set dom controllers & controllers(controllerId).keyVaultState <> undefinedState;
 
 operations

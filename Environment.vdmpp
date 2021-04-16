@@ -12,7 +12,7 @@ instance variables
 operations
     public Environment: () ==> Environment
     Environment() == (
-        let mk_(-, messagesTrace) = io.freadval[seq of MessageRead]("trace_two_controllers.txt") in
+        let mk_(-, messagesTrace) = io.freadval[seq of MessageRead]("trace.txt") in
             for all i in set inds messagesTrace do
                 if "type" in set dom messagesTrace(i) then (
                     let messageType: seq of char = messagesTrace(i)("type") in 
@@ -34,6 +34,11 @@ operations
     public Run: () ==> ()
     Run() == (
         for all i in set inds messages do (
+        		io.print("Processing message ");
+        		io.print(messages(i).GetMessageType());
+        		io.print(" with controller_id ");
+        		io.print(messages(i).GetControllerId());
+        		io.print("\n");
             ProcessMessage(messages(i));
         )
     );
@@ -62,13 +67,16 @@ operations
             end;
         )
     )
-    pre message.GetMessageType() in set {"BroadcastToSearchControllers", "DummyMessage", "ControllerSearchBroadcastAcknowledgement"} =>(
+    pre message.GetMessageType() in set {"BroadcastToSearchControllers", "DummyMessage", "ControllerSearchBroadcastAcknowledgement"} => (
         message.GetMessageType() = "ControllerSearchBroadcastAcknowledgement" => (
             let controllerSearchBroadcastAcknowledgementMessage: ControllerSearchBroadcastAcknowledgementMessage = message in
-                controllers(controllerSearchBroadcastAcknowledgementMessage.GetSenderId()).GetEffectiveCertificate() <> "" =>
+            (
+                if (controllers(controllerSearchBroadcastAcknowledgementMessage.GetSenderId()).GetEffectiveCertificate() <> "") then
                     controllers(controllerSearchBroadcastAcknowledgementMessage.GetSenderId()).GetEffectiveCertificate() = controllerSearchBroadcastAcknowledgementMessage.GetEffectiveCertificate()
+                else false
+            )
         )
-        and message.GetControllerId() in set dom controllers
+        and message.GetControllerId() in set dom controllers and controllers(message.GetControllerId()).GetMode() = <Controller>
     );
     
 end Environment
