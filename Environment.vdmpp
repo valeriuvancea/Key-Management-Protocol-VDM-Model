@@ -22,6 +22,7 @@ operations
                             "SendKeyVaultCertificate" -> messages := messages ^ [new SendKeyVaultCertificateMessage(messageType, messagesTrace(i)("controller_id"), messagesTrace(i)("isForKeyVault"), messagesTrace(i)("cert_kv"))],
                             "SendNewEffectiveCertificate" -> messages := messages ^ [new SendNewEffectiveCertificateMessage(messageType, messagesTrace(i)("controller_id"), messagesTrace(i)("isForKeyVault"), messagesTrace(i)("cert_eff"), messagesTrace(i)("cert_ca"))],
                             "SendNewEffectivePublicKey" -> messages := messages ^ [new SendNewEffectivePublicKeyMessage(messageType, messagesTrace(i)("controller_id"), messagesTrace(i)("isForKeyVault"), messagesTrace(i)("pk_eff"), messagesTrace(i)("hash"))],
+                            "JoinRequest" -> messages := messages ^ [new JoinRequestMessage(messageType, messagesTrace(i)("controller_id"), messagesTrace(i)("isForKeyVault"), messagesTrace(i)("cert_ct"))],
                             others -> messages := messages ^ [new BaseMessage(messageType, messagesTrace(i)("controller_id"), messagesTrace(i)("isForKeyVault"))]
                         end;
                 );
