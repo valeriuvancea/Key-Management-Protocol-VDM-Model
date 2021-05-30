@@ -1,59 +1,85 @@
-class Controller is subclass of GLOBAL
+class Controller is subclass of Equipment
 types
 	public ControllerMode = <Controller> | <SparePart>;
 	
 	private ControllerState = <Idle> |
-		<BroadcastSearchKv> | 
-		<JoinRequest> |
-		<SendChallengeReply> |
-		<SendChallenge> |
-		<SendEffectivePublicKey> |
+		<SearchingForKeyVault> | 
+		<WaitingToJoin> |
+		<WaitingForChallengeSolvedAcknowledgement> |
+		<WaitingForChallengeSolvedReply> |
+		<WaitingForNewEffectiveCertificate> |
+		<SavingNewEffectiveCertificate> |
 		<Connected> |
-		<SendNewKeyForRekeyRequest> |
 		<Undefined>;
 	
 values
 	private sparePartStatesSequence: seq of ControllerState = [
 		<Idle>,
-		<BroadcastSearchKv>,
-		<JoinRequest>,
-		<SendChallengeReply>,
-		<SendChallenge>,
-		<SendEffectivePublicKey>,
+		<SearchingForKeyVault>,
+		<WaitingToJoin>,
+		<WaitingForChallengeSolvedAcknowledgement>,
+		<WaitingForChallengeSolvedReply>,
+		<WaitingForNewEffectiveCertificate>,
+		<SavingNewEffectiveCertificate>,
 		<Connected>
 	];
 
 	private controllerStatesSequence: seq of ControllerState = [
 		<Connected>,
-		<SendNewKeyForRekeyRequest>
+		<WaitingForNewEffectiveCertificate>,
+		<SavingNewEffectiveCertificate>
 	];
-
 
 instance variables
 	private state: ControllerState :=  <Idle>;
-	public id: token;
-	public ipAddress: token;
+	private id: seq of char;
 	private mode: ControllerMode := <SparePart>;
+	private effectiveCertificate: seq of char := "";
 	
 	inv state <> undefinedState;
 	
 operations
-	public Controller: token * token ==> Controller
-	Controller(newId, newIpAddress) == (
+	public Controller: seq of char ==> Controller
+	Controller(newId) == (
 		id := newId;
-		ipAddress := newIpAddress;
 	);
 	
-	public NextState: (/* should use a message object to decide what is the next state */) ==> ()
-	NextState() == skip
-	post (
-		if mode = <SparePart> then 
-			state = GetNextStateFromSequenceUsingCurrentState[ControllerState](sparePartStatesSequence, state~) -- state~ is the previous state
-		else 
-			state = GetNextStateFromSequenceUsingCurrentState[ControllerState](controllerStatesSequence, state~)
-	) and state <> state~;
+	public NextState: BaseMessage ==> ()
+	NextState(message) == (
+		cases message.GetMessageType():
+			"BroadcastToSearchKeyVault" -> state := <SearchingForKeyVault>,
+			"JoinRequest" -> state := <WaitingToJoin>,
+			"SendChallengeAnswer" -> state := <WaitingForChallengeSolvedAcknowledgement>,
+			"SendChallenge" -> state := <WaitingForChallengeSolvedReply>,
+			"SendNewEffectivePublicKey" -> state := <WaitingForNewEffectiveCertificate>,
+			"SendNewEffectiveCertificate" -> (
+				let sendNewEffectiveCertificate: SendNewEffectiveCertificateMessage = message in ( 
+					state := <SavingNewEffectiveCertificate>;
+					effectiveCertificate := sendNewEffectiveCertificate.GetEffectiveCertificate();
+				)
+			),
+			"SendNewEffectiveCertificateAcknoledgement" -> (
+				state := <Connected>;
+				mode := <Controller>;
+			),
+			others -> state := undefinedState
+		end;
+	)
+	pre id = message.GetControllerId()
+	post state~ <> <Idle> =>
+			if mode = <SparePart> then 
+				state = GetNextStateFromSequenceUsingCurrentState[ControllerState](sparePartStatesSequence, state~) -- state~ is the previous state
+			else 
+				state = GetNextStateFromSequenceUsingCurrentState[ControllerState](controllerStatesSequence, state~)
+		and state <> state~;
 
 	public pure GetMode: () ==> ControllerMode
 	GetMode() == return mode;
+
+	public pure GetId: () ==> seq of char
+	GetId() == return id;
+
+	public pure GetEffectiveCertificate: () ==> seq of char
+	GetEffectiveCertificate() == return effectiveCertificate;
 
 end Controller

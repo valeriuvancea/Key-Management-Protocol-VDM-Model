@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="VDM" version="4">
+  <OBJECT>
+    <ID name="VDM" mc="Standard.Project" uid="80b1bc39-925b-44f5-b87b-6fda7a9622d8"/>
+    <ATTRIBUTES>
+      <ATT name="ProjectContext"></ATT>
+      <ATT name="ProjectDescr"></ATT>
+      <ATT name="Name"><![CDATA[VDM]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="Model">
+        <COMPID name="vdm" mc="Standard.Package" uid="5c04cc3b-ec9b-4449-be69-315800e9d02a"/>
+      </COMP>
+      <COMP relation="DiagramRoot">
+        <COMPID name="VDM" mc="Infrastructure.DiagramSet" uid="a8728380-51e8-463d-91fb-88225884fb4b"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

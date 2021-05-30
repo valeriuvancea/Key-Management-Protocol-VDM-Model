@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="vdm" version="4">
+  <OBJECT>
+    <ID name="vdm" mc="Standard.Package" uid="5c04cc3b-ec9b-4449-be69-315800e9d02a"/>
+    <PID name="VDM" mc="Standard.Project" uid="80b1bc39-925b-44f5-b87b-6fda7a9622d8"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[vdm]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="Basic VDM Types" mc="Standard.Package" uid="d33fea98-7a82-431c-bb7e-5f001218cd24"/>
+        <COMPID name="Controller" mc="Standard.Class" uid="21452b83-30bd-45d1-9761-38c995d65a9f"/>
+        <COMPID name="Environment" mc="Standard.Class" uid="01ccedf9-5475-49b1-9ac7-39f91d4281de"/>
+        <COMPID name="Equipment" mc="Standard.Class" uid="0ccd5b94-34d4-4b64-98a8-56f20f5e4c2d"/>
+        <COMPID name="KeyVault" mc="Standard.Class" uid="a314bd48-0638-4f0e-80f3-e2d31c36aec8"/>
+        <COMPID name="BaseMessage" mc="Standard.Class" uid="412e1fce-343d-4677-9d1b-9604e68700f0"/>
+        <COMPID name="ControllerSearchBroadcastAcknowledgementMessage" mc="Standard.Class" uid="14691961-53c6-44d4-a431-941227a97a2e"/>
+        <COMPID name="DummyMessage" mc="Standard.Class" uid="d0209204-39ac-40c0-85fd-78a01cb4f418"/>
+        <COMPID name="MessageInterface" mc="Standard.Class" uid="584c9554-3b72-4049-9f6a-6b2bba858e2d"/>
+        <COMPID name="SendKeyVaultCertificateMessage" mc="Standard.Class" uid="1e6f1a5b-eaa7-40c1-9368-098a2507f870"/>
+        <COMPID name="SendNewEffectiveCertificateMessage" mc="Standard.Class" uid="f15c590a-e814-41d8-9f79-6106cec9ad2a"/>
+        <COMPID name="SendNewEffectivePublicKeyMessage" mc="Standard.Class" uid="8bb7fe54-7395-41b9-8be5-a74a854791dc"/>
+        <COMPID name="IO" mc="Standard.Class" uid="cebf2cbc-678c-4429-87d3-a5bf7301fad8"/>
+        <COMPID name="Composite VDM Types" mc="Standard.Package" uid="0d43f4e9-31a4-4b70-a0f3-6f8f89861eff"/>
+        <COMPID name="Binding classes" mc="Standard.Package" uid="70661465-b497-4807-9f9c-b76d7f42949b"/>
+        <COMPID name="_Unknown_" mc="Standard.DataType" uid="3dd762ef-58ab-4712-8384-964008333e0d"/>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="Generic Model" mc="Standard.ClassDiagram" uid="3abde8bd-1af2-4989-970e-aaaadbf9dbb9"/>
+        <COMPID name="Spcific Model" mc="Standard.ClassDiagram" uid="9d7e99ca-03ad-4a54-9a1a-ea93c92a5945"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

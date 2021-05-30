@@ -1,0 +1,18 @@
+class JoinRequestMessage is subclass of BaseMessage
+instance variables
+    private static certificates: set of seq of char := {};
+
+operations
+    public JoinRequestMessage: seq of char * seq of char * bool * seq of char==> JoinRequestMessage
+    JoinRequestMessage(messageType, controllerId, isForKeyVault, certificate) == (
+        AddField("controllerCertificate", certificate);
+        certificates := certificates union {certificate};
+        BaseMessage(messageType, controllerId, isForKeyVault);
+    )
+    pre certificate not in set certificates
+    post GetMessageType() = "JoinRequest";
+
+    public pure GetControllerCertificate: () ==> seq of char
+    GetControllerCertificate() == return GetField("controllerCertificate");
+
+end JoinRequestMessage

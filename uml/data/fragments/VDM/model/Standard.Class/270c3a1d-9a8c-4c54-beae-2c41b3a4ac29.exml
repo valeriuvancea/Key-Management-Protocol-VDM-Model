@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="MessageRead" version="4">
+  <OBJECT>
+    <ID name="MessageRead" mc="Standard.Class" uid="270c3a1d-9a8c-4c54-beae-2c41b3a4ac29"/>
+    <PID name="Environment" mc="Standard.Class" uid="01ccedf9-5475-49b1-9ac7-39f91d4281de"/>
+    <ATTRIBUTES>
+      <ATT name="IsActive">false</ATT>
+      <ATT name="IsMain">false</ATT>
+      <ATT name="IsElementary">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[MessageRead]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="Parent">
+        <OBJECT>
+          <ID name="" mc="Standard.Generalization" uid="e3aec0e6-68da-41c4-85fa-3629019472ce"/>
+          <ATTRIBUTES>
+            <ATT name="Discriminator"></ATT>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="SuperType">
+              <ID name="Product&lt;Seq&lt;char&gt;,Seq&lt;char&gt;,bool,bool,Seq&lt;char&gt;,Seq&lt;char&gt;&gt;" mc="Standard.Class" uid="bd5444a0-2918-4c9c-b251-756061b694a0"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>
