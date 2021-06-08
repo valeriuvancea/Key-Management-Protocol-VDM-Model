@@ -1,0 +1,15 @@
+class ControllerCertificateUpdateMessage is subclass of BaseMessageBetweenControllers
+values
+    public typeString: seq of char = "ControllerCertificateUpdate"
+
+operations
+    public ControllerCertificateUpdateMessage: seq of char * seq of char * bool * seq of char * seq of char ==> ControllerCertificateUpdateMessage
+    ControllerCertificateUpdateMessage(messageType, controllerId, isForKeyVault, senderId, effectiveCertificate) == (
+        AddField("effectiveCertificate", effectiveCertificate);
+        BaseMessageBetweenControllers(messageType, controllerId, isForKeyVault, senderId);
+    )
+    post GetMessageType() = typeString;
+
+    public pure GetEffectiveCertificate: () ==> seq of char
+    GetEffectiveCertificate() == return GetField("effectiveCertificate");
+end ControllerCertificateUpdateMessage

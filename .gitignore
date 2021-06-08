@@ -1,2 +1,4 @@
 *.*cov*
 generated
+uml/.runtime/*
+presentation_fallback/*
