@@ -13,7 +13,8 @@ values
         "SendReKeyRequest",
         "BroadcastToSearchControllers",
         "ControllerSearchBroadcastAcknowledgement",
-        "DummyMessage"
+        "DummyMessage",
+        "ControllerCertificateUpdate"
     };
 
 operations

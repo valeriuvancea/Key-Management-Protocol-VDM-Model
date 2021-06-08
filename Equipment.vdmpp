@@ -1,4 +1,5 @@
 class Equipment
+
 values
 	public undefinedState = <Undefined>;
 
