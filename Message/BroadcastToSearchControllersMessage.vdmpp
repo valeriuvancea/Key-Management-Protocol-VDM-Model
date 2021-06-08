@@ -1,0 +1,11 @@
+class BroadcastToSearchControllersMessage is subclass of BaseMessage
+instance variables
+
+operations
+    public BroadcastToSearchControllersMessage: seq of char * seq of char * bool ==> BroadcastToSearchControllersMessage
+    BroadcastToSearchControllersMessage(messageType, controllerId, isForKeyVault) == (
+        BaseMessage(messageType, controllerId, isForKeyVault);
+    )
+    post GetMessageType() = "BroadcastToSearchControllers";
+
+end BroadcastToSearchControllersMessage

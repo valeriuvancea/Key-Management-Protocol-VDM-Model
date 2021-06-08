@@ -1,17 +1,15 @@
-class ControllerSearchBroadcastAcknowledgementMessage is subclass of BaseMessage
+class ControllerSearchBroadcastAcknowledgementMessage is subclass of BaseMessageBetweenControllers
+
+values
+    public typeString: seq of char = "ControllerSearchBroadcastAcknowledgement"
 
 operations
     public ControllerSearchBroadcastAcknowledgementMessage: seq of char * seq of char * bool * seq of char * seq of char ==> ControllerSearchBroadcastAcknowledgementMessage
     ControllerSearchBroadcastAcknowledgementMessage(messageType, controllerId, isForKeyVault, senderId, effectiveCertificate) == (
-        AddField("senderId", senderId);
         AddField("effectiveCertificate", effectiveCertificate);
-        BaseMessage(messageType, controllerId, isForKeyVault);
+        BaseMessageBetweenControllers(messageType, controllerId, isForKeyVault, senderId);
     )
-    pre controllerId <> senderId
-    post GetMessageType() = "ControllerSearchBroadcastAcknowledgement";
-
-    public pure GetSenderId: () ==> seq of char
-    GetSenderId() == return GetField("senderId");
+    post GetMessageType() = typeString;
 
     public pure GetEffectiveCertificate: () ==> seq of char
     GetEffectiveCertificate() == return GetField("effectiveCertificate");

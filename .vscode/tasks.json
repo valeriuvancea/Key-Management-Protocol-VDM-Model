@@ -1,0 +1,10 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "download_trace",
+            "type": "shell",
+            "command": "scp -i ${config:identity_file} pi@${config:pink_address}:/home/pi/translator/trace.txt ${workspaceFolder}/trace.txt",
+        },
+    ],
+}

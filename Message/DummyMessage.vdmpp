@@ -1,17 +1,12 @@
-class DummyMessage is subclass of BaseMessage
+class DummyMessage is subclass of BaseMessageBetweenControllers
 
 operations
     public DummyMessage: seq of char * seq of char * bool * seq of char * seq of char ==> DummyMessage
     DummyMessage(messageType, controllerId, isForKeyVault, senderId, encryptedData) == (
-        AddField("senderId", senderId);
         AddField("encryptedData", encryptedData);
-        BaseMessage(messageType, controllerId, isForKeyVault);
+        BaseMessageBetweenControllers(messageType, controllerId, isForKeyVault, senderId);
     )
-    pre controllerId <> senderId
     post GetMessageType() = "DummyMessage";
-
-    public pure GetSenderId: () ==> seq of char
-    GetSenderId() == return GetField("senderId");
 
     public pure GetEncryptedData: () ==> seq of char
     GetEncryptedData() == return GetField("encryptedData");

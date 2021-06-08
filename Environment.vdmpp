@@ -10,56 +10,47 @@ instance variables
     private keyVault: KeyVault := new KeyVault();
 
 operations
-    public Environment: () ==> Environment
-    Environment() == (
-        let mk_(-, messagesTrace) = io.freadval[seq of MessageRead]("trace.txt") in
-            for all i in set inds messagesTrace do
-                if "type" in set dom messagesTrace(i) then (
-                    let messageType: seq of char = messagesTrace(i)("type") in 
-                        cases messageType:
-                            "ControllerSearchBroadcastAcknowledgement" -> messages := messages ^ [new ControllerSearchBroadcastAcknowledgementMessage(messageType, messagesTrace(i)("controller_id"), messagesTrace(i)("isForKeyVault"), messagesTrace(i)("sender_id"), messagesTrace(i)("cert_eff"))],
-                            "DummyMessage" -> messages := messages ^ [new DummyMessage(messageType, messagesTrace(i)("controller_id"), messagesTrace(i)("isForKeyVault"), messagesTrace(i)("sender_id"), messagesTrace(i)("encrypted_data"))],
-                            "SendKeyVaultCertificate" -> messages := messages ^ [new SendKeyVaultCertificateMessage(messageType, messagesTrace(i)("controller_id"), messagesTrace(i)("isForKeyVault"), messagesTrace(i)("cert_kv"))],
-                            "SendNewEffectiveCertificate" -> messages := messages ^ [new SendNewEffectiveCertificateMessage(messageType, messagesTrace(i)("controller_id"), messagesTrace(i)("isForKeyVault"), messagesTrace(i)("cert_eff"), messagesTrace(i)("cert_ca"))],
-                            "SendNewEffectivePublicKey" -> messages := messages ^ [new SendNewEffectivePublicKeyMessage(messageType, messagesTrace(i)("controller_id"), messagesTrace(i)("isForKeyVault"), messagesTrace(i)("pk_eff"), messagesTrace(i)("hash"))],
-                            "JoinRequest" -> messages := messages ^ [new JoinRequestMessage(messageType, messagesTrace(i)("controller_id"), messagesTrace(i)("isForKeyVault"), messagesTrace(i)("cert_ct"))],
-                            others -> messages := messages ^ [new BaseMessage(messageType, messagesTrace(i)("controller_id"), messagesTrace(i)("isForKeyVault"))]
-                        end;
-                );
-    );
+    public Run: (seq of char) ==> ()
+    Run(traceFilePath) == (
+        let mk_(-, messageTraces) = io.freadval[seq of MessageRead](traceFilePath) in (
+            for i = 1 to len messageTraces do (
+                let message: BaseMessage = MessageReadAsMessage(messageTraces(i)) in (
+                    ProcessMessage(message);
 
-    private AddController: Controller ==> ()
-	AddController(controller) == controllers := controllers ++ { controller.GetId() |-> controller }
-	pre controller.GetId() not in set dom controllers;
-
-    public Run: () ==> ()
-    Run() == (
-        for all i in set inds messages do (
-        		io.print("Processing message ");
-        		io.print(messages(i).GetMessageType());
-        		io.print(" with controller_id ");
-        		io.print(messages(i).GetControllerId());
-        		io.print("\n");
-            ProcessMessage(messages(i));
-        )
+                    io.print("Created and processed message:\n");
+                    io.print("    type: ");io.print(message.GetMessageType());io.print("\n");
+                    io.print("    controller id: ");io.print(message.GetControllerId());io.print("\n");
+                )
+            )    
+        );
+        io.print("Done");
     );
 
     public ProcessMessage: BaseMessage ==> ()
     ProcessMessage(message) == (
-        def controllerId = message.GetControllerId() in (
+        let 
+            controllerId = message.GetControllerId(),
+            messageType = message.GetMessageType() in
+        (
             if controllerId not in set dom controllers then
-                def controller = new Controller(controllerId) in (
+                let controller = new Controller(controllerId) in (
                     AddController(controller);
                     keyVault.AddController(controller);
                 );
-            cases message.GetMessageType():
-                "SendNewEffectiveCertificate", "SendNewEffectiveCertificateAcknoledgement" -> (
+            
+            cases messageType:
+                "SendNewEffectiveCertificate",
+                "SendNewEffectiveCertificateAcknoledgement" -> (
                     controllers(controllerId).NextState(message);
                     keyVault.NextState(message);
                 ),
-                "BroadcastToSearchControllers", "DummyMessage", "ControllerSearchBroadcastAcknowledgement" -> skip,
+                "BroadcastToSearchControllers" -> (
+                    ProcessControllerSearchBroadcast(message);
+                ),
                 others -> (
-                    if message.IsForKeyVault() then (
+                    if messageType in set BaseMessageBetweenControllers`messageBetweenControllersTypes then (
+                        ProcessMessageBetweenControllers(message);
+                    ) else if message.IsForKeyVault() then (
                         controllers(controllerId).NextState(message);
                     ) else if not message.IsForKeyVault() then (
                         keyVault.NextState(message);
@@ -67,17 +58,117 @@ operations
                 )
             end;
         )
-    )
-    pre message.GetMessageType() in set {"BroadcastToSearchControllers", "DummyMessage", "ControllerSearchBroadcastAcknowledgement"} => (
-        message.GetMessageType() = "ControllerSearchBroadcastAcknowledgement" => (
-            let controllerSearchBroadcastAcknowledgementMessage: ControllerSearchBroadcastAcknowledgementMessage = message in
-            (
-                if (controllers(controllerSearchBroadcastAcknowledgementMessage.GetSenderId()).GetEffectiveCertificate() <> "") then
-                    controllers(controllerSearchBroadcastAcknowledgementMessage.GetSenderId()).GetEffectiveCertificate() = controllerSearchBroadcastAcknowledgementMessage.GetEffectiveCertificate()
-                else false
-            )
-        )
-        and message.GetControllerId() in set dom controllers and controllers(message.GetControllerId()).GetMode() = <Controller>
     );
-    
+
+    private ProcessControllerSearchBroadcast: BroadcastToSearchControllersMessage ==> ()
+    ProcessControllerSearchBroadcast(message) == (
+        skip;
+    ) pre IsControllerConnected(message.GetControllerId());
+
+    private ProcessMessageBetweenControllers: BaseMessageBetweenControllers ==> ()
+    ProcessMessageBetweenControllers(message) == (
+        if message.GetMessageType() = ControllerSearchBroadcastAcknowledgementMessage`typeString then (
+            ProcessControllerSearchBroadcastAcknowledgement(message)
+        ) else if message.GetMessageType() = ControllerCertificateUpdateMessage`typeString then (
+            ProcessControllerCertificateUpdateMessage(message)
+        )
+    ) pre (
+        IsControllerConnected(message.GetSenderId()) and
+        IsControllerConnected(message.GetReceiverId())
+    );
+
+    private ProcessControllerSearchBroadcastAcknowledgement: ControllerSearchBroadcastAcknowledgementMessage ==> ()
+    ProcessControllerSearchBroadcastAcknowledgement(message) == (
+        skip;
+    ) pre (
+        controllers(message.GetSenderId()).GetEffectiveCertificate() = message.GetEffectiveCertificate()
+    );
+
+    private ProcessControllerCertificateUpdateMessage: ControllerCertificateUpdateMessage ==> ()
+    ProcessControllerCertificateUpdateMessage(message) == (
+        skip;
+    ) pre (
+        controllers(message.GetSenderId()).GetEffectiveCertificate() = message.GetEffectiveCertificate()
+    );
+
+    pure private IsControllerConnected: seq of char ==> bool
+    IsControllerConnected(controllerId) == (
+        return controllerId in set dom controllers and controllers(controllerId).GetMode() = <Controller>
+    );
+
+    private AddController: Controller ==> ()
+	AddController(controller) == (
+        controllers := controllers ++ { controller.GetId() |-> controller }
+    )
+	pre controller.GetId() not in set dom controllers;
+
+    private MessageReadAsMessage: MessageRead ==> BaseMessage
+	MessageReadAsMessage(messageTrace) == (
+        let
+            messageType: seq of char = messageTrace("type"),
+            controllerId: seq of char = messageTrace("controller_id"),
+            isForKeyVault: bool = messageTrace("isForKeyVault") in
+        ( 
+            cases messageType:
+                "SendKeyVaultCertificate" ->
+                    return new SendKeyVaultCertificateMessage(
+                        messageType,
+                        controllerId,
+                        isForKeyVault,
+                        messageTrace("cert_kv")),
+                "SendNewEffectiveCertificate" ->
+                    return new SendNewEffectiveCertificateMessage(
+                        messageType,
+                        controllerId,
+                        isForKeyVault,
+                        messageTrace("cert_eff"),
+                        messageTrace("cert_ca")),
+                "SendNewEffectivePublicKey" ->
+                    return new SendNewEffectivePublicKeyMessage(
+                        messageType,
+                        controllerId,
+                        isForKeyVault,
+                        messageTrace("pk_eff"),
+                        messageTrace("hash")),
+                "JoinRequest" ->
+                    return new JoinRequestMessage(
+                        messageType,
+                        controllerId,
+                        isForKeyVault,
+                        messageTrace("cert_ct")),
+                "ControllerSearchBroadcastAcknowledgement" ->
+                    return new ControllerSearchBroadcastAcknowledgementMessage(
+                        messageType,
+                        controllerId,
+                        isForKeyVault,
+                        messageTrace("sender_id"),
+                        messageTrace("cert_eff")),
+                "ControllerCertificateUpdate" ->
+                    return new ControllerCertificateUpdateMessage(
+                        messageType,
+                        controllerId,
+                        isForKeyVault,
+                        messageTrace("sender_id"),
+                        messageTrace("cert_eff")),
+                "DummyMessage" ->
+                    return new DummyMessage(
+                        messageType,
+                        controllerId,
+                        isForKeyVault,
+                        messageTrace("sender_id"),
+                        messageTrace("encrypted_data")),
+                "BroadcastToSearchControllers" ->
+                    return new BroadcastToSearchControllersMessage(
+                        messageType,
+                        controllerId,
+                        isForKeyVault),
+                others ->
+                    return new BaseMessage(
+                        messageType,
+                        controllerId,
+                        isForKeyVault)
+            end;
+        );
+    ) pre {"type", "controller_id", "isForKeyVault"} subset dom messageTrace;
+	
 end Environment

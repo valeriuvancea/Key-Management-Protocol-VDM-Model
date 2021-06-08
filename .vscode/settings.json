@@ -3,5 +3,7 @@
         "elems",
         "forall",
         "inds"
-    ]
+    ],
+    "pink_address": "192.168.1.253",
+    "identity_file": "%USERPROFILE%\\.ssh\\pi_key"
 }

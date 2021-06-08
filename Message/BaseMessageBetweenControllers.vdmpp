@@ -1,0 +1,24 @@
+class BaseMessageBetweenControllers is subclass of BaseMessage
+values
+    public messageBetweenControllersTypes: set of seq of char = {
+        "ControllerSearchBroadcastAcknowledgement",
+        "DummyMessage",
+        "ControllerCertificateUpdate"
+    };
+
+operations
+    public BaseMessageBetweenControllers: seq of char * seq of char * bool * seq of char ==> BaseMessageBetweenControllers
+    BaseMessageBetweenControllers(messageType, controllerId, isForKeyVault, senderId) == (
+        AddField("senderId", senderId);
+        BaseMessage(messageType, controllerId, isForKeyVault);
+    )
+    post (
+        GetMessageType() in set messageBetweenControllersTypes and
+        GetSenderId() <> GetReceiverId());
+
+    public pure GetSenderId: () ==> seq of char
+    GetSenderId() == return GetField("senderId");
+
+    public pure GetReceiverId: () ==> seq of char
+    GetReceiverId() == return GetField("controllerId");
+end BaseMessageBetweenControllers
